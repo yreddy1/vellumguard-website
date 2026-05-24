@@ -65,17 +65,20 @@
           <span class="code-file">encrypt.ts</span>
         </div>
         <div class="code-body">
-<span class="ln"><span class="tk-kw">import</span> { VellumGuard } <span class="tk-kw">from</span> <span class="tk-str">"@vellumguard/sdk"</span>;</span>
+<span class="ln"><span class="tk-kw">import</span> { VellumGuard, HttpKmsClient } <span class="tk-kw">from</span> <span class="tk-str">"@vellumguard/sdk"</span>;</span>
 <span class="ln"> </span>
-<span class="ln"><span class="tk-kw">const</span> vg = <span class="tk-kw">new</span> <span class="tk-fn">VellumGuard</span>({ apiKey });</span>
+<span class="ln"><span class="tk-kw">const</span> vg = <span class="tk-kw">new</span> <span class="tk-fn">VellumGuard</span>({</span>
+<span class="ln">  kms: <span class="tk-kw">new</span> <span class="tk-fn">HttpKmsClient</span>({ apiKey }),</span>
+<span class="ln">});</span>
 <span class="ln"> </span>
 <span class="ln"><span class="tk-cm">// hybrid post-quantum, one call</span></span>
 <span class="ln"><span class="tk-kw">const</span> sealed = <span class="tk-kw">await</span> vg.<span class="tk-fn">encrypt</span>({</span>
 <span class="ln">  data: <span class="tk-str">"patient note: BP 120/80"</span>,</span>
 <span class="ln">  recipient: <span class="tk-str">"user_abc123"</span>,</span>
+<span class="ln">  signAs: <span class="tk-str">"service_key"</span>,</span>
 <span class="ln">});</span>
 <span class="ln"> </span>
-<span class="ln"><span class="tk-kw">const</span> { data } = <span class="tk-kw">await</span> vg.<span class="tk-fn">decrypt</span>({ sealed });</span>
+<span class="ln"><span class="tk-kw">const</span> { data } = <span class="tk-kw">await</span> vg.<span class="tk-fn">decrypt</span>(sealed, <span class="tk-str">"user_abc123"</span>);</span>
         </div>
       </div>
     </div>
