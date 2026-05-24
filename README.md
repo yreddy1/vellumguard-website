@@ -19,7 +19,10 @@ JavaScript. No build step, no framework, no npm install required to run it.
 ├── css/style.css       All styles (design tokens at the top)
 ├── js/main.js          Nav toggle + scroll reveals
 ├── assets/             Favicon and static assets
-└── .github/workflows/  GitHub Pages deploy workflow
+├── vercel.json         Clean URLs, cache + security headers
+├── README.md
+├── LICENSE
+└── .gitignore
 ```
 
 ## Run it locally
@@ -34,23 +37,34 @@ python3 -m http.server 8000
 npx serve .
 ```
 
-Then open <http://localhost:8000>.
+Then open <http://localhost:8000>. Internal links use clean URLs (`/pricing`,
+`/docs`, `/security`) which Vercel resolves automatically; on a plain local server
+you may need to append `.html` manually, or use `npx serve .` which also supports
+clean URLs.
 
-## Deploy
+## Deploy (Vercel)
 
-### GitHub Pages (included)
+The site is configured for Vercel via `vercel.json` — clean URLs, sensible cache
+headers, and basic security headers are already set. No build step.
 
-The workflow at `.github/workflows/deploy.yml` publishes the site to GitHub Pages on
-every push to `main`. To enable it:
+1. Push this repo to GitHub (e.g. `github.com/vellumguard/website`).
+2. In Vercel, **Add New → Project** and import the repo.
+3. Framework preset: **Other**. Build command: none. Output directory: `.` (root).
+4. Deploy. Vercel gives you a `*.vercel.app` URL immediately and a fresh
+   preview URL on every future branch and pull request.
 
-1. Push this repo to `github.com/vellumguard/website` (or any repo).
-2. In **Settings → Pages**, set the source to **GitHub Actions**.
-3. Push to `main`. The site builds and deploys automatically.
+### Custom domain
+
+In the Vercel project: **Settings → Domains → Add** `vellumguard.com`. Vercel shows
+the DNS records to set at your registrar (an `A` record, or a `CNAME` for `www`).
+Add `vellumguard.ai` as a second domain and set it to redirect to `vellumguard.com`
+so the brand resolves to one canonical host.
 
 ### Other hosts
 
-The site is static, so it also drops cleanly onto Netlify, Vercel, Cloudflare Pages, or
-any object store. No configuration needed — point the host at the repo root.
+The site is plain static files, so it also drops onto Netlify, Cloudflare Pages, or
+any object store. Only `vercel.json` is Vercel-specific and is simply ignored
+elsewhere.
 
 ## Before launch — wire these up
 
