@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Security — VellumGuard</title>
+<meta name="description" content="VellumGuard's security model: hybrid post-quantum cryptography, plaintext never leaves your infrastructure, audited primitives, and a compliance roadmap." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">V</span>
+      <span class="brand-name">Vellum<span>Guard</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="index.html#how">How it works</a></li>
+      <li><a href="index.html#features">Why VellumGuard</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="security.html">Security</a></li>
+      <li><a href="index.html#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Get a key</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow reveal">Security &amp; trust</span>
+    <h1 class="reveal" data-d="1">A design built to be inspected.</h1>
+    <p class="lead reveal" data-d="2">Every claim below has a verifiable artifact behind
+      it. No marketing fluff in this section — that's the point.</p>
+  </div>
+</section>
+
+<section class="band" style="padding-top:1rem;">
+  <div class="wrap">
+    <div class="feat-grid">
+      <div class="feat reveal" data-d="1">
+        <h3>Plaintext never leaves you</h3>
+        <p>Encryption and decryption execute inside the SDK, on your infrastructure.
+          VellumGuard's servers see public keys and ciphertext metadata for the audit
+          trail — never the data itself. This is a structural property, not a promise.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Hybrid by construction</h3>
+        <p>Each ciphertext is sealed with a classical scheme <em class="it">and</em> a
+          post-quantum scheme. A break in either leaves the other standing. You are never
+          worse off than today's best-practice cryptography.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>NIST-standardized algorithms</h3>
+        <p>ML-KEM-768 (FIPS&nbsp;203) and ML-DSA-65 (FIPS&nbsp;204) at NIST Level&nbsp;3.
+          No experimental or pre-standardization schemes in the default suite.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Audited primitives only</h3>
+        <p>VellumGuard composes well-reviewed, open cryptographic implementations. There
+          is no home-grown cryptography in the stack — deliberately the boring choice.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>Keys in hardware</h3>
+        <p>Workspace key-encryption keys live in a hardware security module and are never
+          exported. Identity private keys are stored only in wrapped form.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Open ciphertext format</h3>
+        <p>The wire format is published with reference test vectors. If VellumGuard ever
+          disappeared, your data would remain decryptable with any conforming tool.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band-tint" id="threat">
+  <div class="wrap prose reveal">
+    <span class="eyebrow" style="display:block;margin-bottom:1rem;">Threat model</span>
+    <h2 style="margin-top:0;">What VellumGuard defends — and what it doesn't.</h2>
+    <p>Honest scoping is part of a trustworthy security product. VellumGuard is explicit
+      about its boundaries.</p>
+
+    <h3>In scope</h3>
+    <ul>
+      <li>A future quantum adversary recording ciphertext today to break later.</li>
+      <li>Forged signatures from a quantum-capable attacker.</li>
+      <li>Compromise of VellumGuard's own infrastructure — customer plaintext was never
+        there, and identity keys are wrapped under an HSM-held key.</li>
+      <li>Leaked workspace API keys — scoped, revocable, and rate-limited.</li>
+      <li>Replay attacks — nonces and timestamps are bound into every ciphertext.</li>
+    </ul>
+
+    <h3>Out of scope</h3>
+    <ul>
+      <li>Compromise of your own application servers — if an attacker controls your
+        infrastructure, they may see plaintext before it is ever encrypted.</li>
+      <li>Compromise of a recipient's device after decryption.</li>
+      <li>Side-channel attacks against your own hosting environment.</li>
+    </ul>
+    <p>For the complete model, including the key hierarchy and rotation policy, see the
+      <a href="docs.html#format">ciphertext format documentation</a>.</p>
+  </div>
+</section>
+
+<section class="band" id="compliance">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Compliance</span>
+      <h2>The artifacts a security review asks for.</h2>
+      <p>VellumGuard is built so a compliance team's questionnaire is quick to answer.</p>
+    </div>
+    <div class="spec reveal">
+      <div class="spec-row"><span class="spec-k">HIPAA BAA</span><span class="spec-v">Available · Business tier</span></div>
+      <div class="spec-row"><span class="spec-k">SOC 2 Type II</span><span class="spec-v">In progress</span></div>
+      <div class="spec-row"><span class="spec-k">Penetration testing</span><span class="spec-v">Annual · third-party</span></div>
+      <div class="spec-row"><span class="spec-k">Audit trail</span><span class="spec-v">Append-only · exportable</span></div>
+      <div class="spec-row"><span class="spec-k">Key management</span><span class="spec-v">HSM-backed</span></div>
+      <div class="spec-row"><span class="spec-k">Data residency</span><span class="spec-v">US · EU region planned</span></div>
+      <div class="spec-row"><span class="spec-k">FedRAMP</span><span class="spec-v">Roadmap · Enterprise</span></div>
+      <div class="spec-row"><span class="spec-k">Sub-processors</span><span class="spec-v">Published list</span></div>
+    </div>
+    <p style="margin-top:1.5rem;font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);">
+      Status reflects the current build phase and is updated as certifications complete.</p>
+  </div>
+</section>
+
+<section class="band band-ink">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <span class="eyebrow">Disclosure</span>
+      <h2>Found something? Tell us.</h2>
+      <p class="lead">We welcome coordinated disclosure from security researchers. Reports
+        go straight to the team.</p>
+      <div class="cta-actions">
+        <a href="mailto:security@vellumguard.com" class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);">security@vellumguard.com</a>
+        <a href="index.html#start" class="btn btn-ghost" style="border-color:var(--paper);color:var(--paper);">Request access</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand" style="color:var(--paper);">
+          <span class="brand-mark" style="border-color:var(--paper);">V</span>
+          <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
+        </a>
+        <p>Post-quantum encryption for developers.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#how">How it works</a></li>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="docs.html">Documentation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Trust</h4>
+        <ul>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="docs.html#format">Ciphertext spec</a></li>
+          <li><a href="security.html#compliance">Compliance</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#start">Early access</a></li>
+          <li><a href="mailto:hello@vellumguard.com">Contact</a></li>
+          <li><a href="https://github.com/vellumguard">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="year">2026</span> VellumGuard. All rights reserved.</span>
+      <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

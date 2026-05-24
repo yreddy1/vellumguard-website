@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Documentation — VellumGuard</title>
+<meta name="description" content="VellumGuard documentation. Quickstart, SDK reference, and the open ciphertext format specification for post-quantum encryption." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">V</span>
+      <span class="brand-name">Vellum<span>Guard</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="index.html#how">How it works</a></li>
+      <li><a href="index.html#features">Why VellumGuard</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="security.html">Security</a></li>
+      <li><a href="index.html#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Get a key</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow reveal">Documentation</span>
+    <h1 class="reveal" data-d="1">Quickstart &amp; reference.</h1>
+    <p class="lead reveal" data-d="2">Everything you need to ship post-quantum encryption —
+      from your first encrypted string to the wire format underneath it.</p>
+  </div>
+</section>
+
+<section class="band" style="padding-top:1rem;">
+  <div class="wrap prose reveal">
+
+    <h2 id="install">Installation</h2>
+    <p>The VellumGuard SDK ships for TypeScript/Node first, with Python and Go following.
+      Install from npm:</p>
+    <pre><code>npm install @vellumguard/sdk</code></pre>
+
+    <h2 id="quickstart">Quickstart</h2>
+    <p>Initialize the client with a workspace API key, then encrypt and decrypt against
+      your own user identities. Hybrid post-quantum protection is on by default.</p>
+    <pre><code>import { VellumGuard } from "@vellumguard/sdk";
+
+const vg = new VellumGuard({ apiKey: process.env.VELLUMGUARD_API_KEY });
+
+// Encrypt — addressed to one of your user IDs
+const sealed = await vg.encrypt({
+  data: "patient note: BP 120/80",
+  recipient: "user_abc123",
+});
+
+// Decrypt — on the recipient's side
+const { data, sender } = await vg.decrypt({ sealed });</code></pre>
+
+    <p>That is the whole surface for the common case. No key handling, no algorithm
+      selection, no mode flags to forget.</p>
+
+    <h3 id="files">Encrypting a file</h3>
+    <p>A convenience layer streams larger payloads to and from disk or object storage:</p>
+    <pre><code>await vg.files.encrypt({
+  input:  "/tmp/labs.pdf",
+  output: "/tmp/labs.pdf.vgseal",
+  recipient: ["patient_001", "provider_044"],
+});</code></pre>
+
+    <h3 id="identities">Managing identities</h3>
+    <p>An identity maps one of your user, device, or service IDs to a managed key pair.
+      VellumGuard generates, stores, and rotates the underlying keys for you.</p>
+    <pre><code>await vg.identities.create({ externalId: "user_abc123", type: "user" });
+await vg.identities.rotate("user_abc123");
+await vg.identities.revoke("user_abc123", "device lost");</code></pre>
+
+    <h2 id="format">Ciphertext format</h2>
+    <p>The VellumGuard ciphertext format is <strong>public and versioned</strong>. A
+      published specification with reference test vectors means your data stays
+      decryptable with any conforming implementation — there is no proprietary lock-in.</p>
+
+    <blockquote>Every ciphertext carries a version byte, a suite identifier, recipient and
+      sender key IDs, a hybrid KEM payload, the AEAD-encrypted body, and a hybrid
+      signature. Old versions remain decryptable permanently.</blockquote>
+
+    <h3>v1 cryptographic suite</h3>
+    <ul>
+      <li><strong>Key encapsulation</strong> — X25519 + ML-KEM-768 (FIPS&nbsp;203)</li>
+      <li><strong>Signatures</strong> — Ed25519 + ML-DSA-65 (FIPS&nbsp;204)</li>
+      <li><strong>Symmetric cipher</strong> — AES-256-GCM</li>
+      <li><strong>Key derivation</strong> — HKDF-SHA-256, binding both shared secrets</li>
+    </ul>
+    <p>The classical and post-quantum shared secrets are concatenated before key
+      derivation, so compromising either one alone reveals nothing about the payload.</p>
+
+    <h3>Transport encoding</h3>
+    <p>Ciphertexts are binary by default. For JSON-friendly transport they are encoded as
+      Base64URL with a <code>v1.</code> prefix for easy identification in logs.</p>
+
+    <h2 id="errors">Error handling</h2>
+    <p>Every error carries a stable <code>code</code>, a <code>retryable</code> flag, and a
+      <code>requestId</code> for support. Match on the code — never parse messages.</p>
+    <pre><code>try {
+  await vg.decrypt({ sealed });
+} catch (err) {
+  if (err.code === "recipient_revoked") { /* handle */ }
+}</code></pre>
+
+    <h2 id="next">Next steps</h2>
+    <p>Review the <a href="security.html">security model</a> to understand the trust
+      boundary, or <a href="index.html#start">request an API key</a> to start building.
+      Full SDK reference and language-specific guides ship with early access.</p>
+
+  </div>
+</section>
+
+<section class="band band-ink">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <span class="eyebrow">Begin the folio</span>
+      <h2>Build with VellumGuard.</h2>
+      <p class="lead">Request an early-access key and put these examples into production.</p>
+      <div class="cta-actions">
+        <a href="index.html#start" class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);">Request access <span class="btn-arrow">→</span></a>
+        <a href="https://github.com/vellumguard" class="btn btn-ghost" style="border-color:var(--paper);color:var(--paper);">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand" style="color:var(--paper);">
+          <span class="brand-mark" style="border-color:var(--paper);">V</span>
+          <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
+        </a>
+        <p>Post-quantum encryption for developers.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#how">How it works</a></li>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="docs.html">Documentation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Trust</h4>
+        <ul>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="docs.html#format">Ciphertext spec</a></li>
+          <li><a href="security.html#compliance">Compliance</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#start">Early access</a></li>
+          <li><a href="mailto:hello@vellumguard.com">Contact</a></li>
+          <li><a href="https://github.com/vellumguard">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="year">2026</span> VellumGuard. All rights reserved.</span>
+      <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
