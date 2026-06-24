@@ -95,6 +95,26 @@ em.it { font-style: italic; }
 .btn-arrow { transition: transform .18s ease; }
 .btn:hover .btn-arrow { transform: translateX(3px); }
 
+/* ---------- access-request form ---------- */
+.form-fields { display: flex; flex-direction: column; gap: .65rem; width: 100%; text-align: left; margin-top: .2rem; }
+.form-label {
+  display: block; font-family: var(--mono); font-size: .74rem;
+  letter-spacing: .1em; text-transform: uppercase; opacity: .65;
+  margin-bottom: .3rem;
+}
+.form-opt { text-transform: none; opacity: .55; margin-left: .35em; }
+.form-input {
+  display: block; width: 100%;
+  font-family: var(--mono); font-size: .88rem;
+  padding: .75em 1.1em;
+  border: 1.5px solid currentColor; background: transparent; color: inherit;
+  opacity: .9;
+  transition: opacity .15s ease;
+}
+.form-input:focus { opacity: 1; outline: 2px solid currentColor; outline-offset: 2px; }
+.form-input::placeholder { opacity: .4; }
+textarea.form-input { resize: vertical; min-height: 4.8rem; }
+
 /* ============================================================
    NAV
    ============================================================ */

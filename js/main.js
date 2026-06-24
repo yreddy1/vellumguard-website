@@ -36,49 +36,57 @@
     showAll();
   }
 
-  // --- request access forms (mailto) ---
+  // --- request access forms (Formspree) ---
   document.querySelectorAll('.cta-form').forEach(function (form) {
     form.addEventListener('submit', function (event) {
       event.preventDefault();
-      var input  = form.querySelector('input[type="email"]');
-      var errEl  = form.querySelector('.cta-err');
-      var msgEl  = form.querySelector('.cta-msg');
-      var email  = (input.value || '').trim();
 
-      // Basic validation: non-empty, has @, has a dot after @
+      var emailInput = form.querySelector('input[type="email"]');
+      var errEl      = form.querySelector('.cta-err');
+      var msgEl      = form.querySelector('.cta-msg');
+      var failEl     = form.querySelector('.cta-fail');
+      var submitBtn  = form.querySelector('button[type="submit"]');
+
+      // Validate: non-empty, has @, has a dot after @
+      var email = emailInput ? emailInput.value.trim() : '';
       var atIdx = email.indexOf('@');
       var valid = atIdx > 0 && email.indexOf('.', atIdx + 1) > atIdx + 1;
 
       if (!valid) {
-        if (errEl) { errEl.hidden = false; }
-        input.focus();
+        if (errEl)  { errEl.hidden  = false; }
+        if (msgEl)  { msgEl.hidden  = true;  }
+        if (failEl) { failEl.hidden = true;  }
+        if (emailInput) { emailInput.focus(); }
         return;
       }
       if (errEl) { errEl.hidden = true; }
 
-      var subject = 'VellumGuard design partner access request';
-      var body = [
-        'Hello VellumGuard team,',
-        '',
-        'I am interested in design partner access.',
-        '',
-        'Email:',
-        email,
-        '',
-        'Company:',
-        '(please add your company name)',
-        '',
-        'Use case:',
-        '(please add a short note about what you are building)'
-      ].join('\n');
+      // Disable button while submitting
+      var origHTML = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = 'Sending\u2026'; }
 
-      window.location.href =
-        'mailto:beta@vellumguard.com' +
-        '?subject=' + encodeURIComponent(subject) +
-        '&body='    + encodeURIComponent(body);
-
-      if (msgEl) { msgEl.hidden = false; }
-      setTimeout(function () { input.value = ''; }, 400);
+      fetch('https://formspree.io/f/mlgygonp', {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function (res) {
+        if (res.ok) {
+          if (msgEl)  { msgEl.hidden  = false; }
+          if (failEl) { failEl.hidden = true;  }
+          form.reset();
+        } else {
+          if (failEl) { failEl.hidden = false; }
+          if (msgEl)  { msgEl.hidden  = true;  }
+        }
+      })
+      .catch(function () {
+        if (failEl) { failEl.hidden = false; }
+        if (msgEl)  { msgEl.hidden  = true;  }
+      })
+      .finally(function () {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = origHTML; }
+      });
     });
   });
 
