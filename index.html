@@ -351,12 +351,17 @@
       <p class="lead">We are onboarding a small group of design partners. Healthcare,
         defense, and long-lived-data use cases prioritized. Beta is free unless
         otherwise agreed in writing.</p>
-      <form class="cta-actions" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('.cta-msg').hidden=false;">
+      <form class="cta-actions cta-form">
         <input type="email" required placeholder="you@company.com"
           style="font-family:var(--mono);font-size:.9rem;padding:.92em 1.2em;border:1.5px solid var(--paper);background:transparent;color:var(--paper);min-width:260px;" />
-        <button class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);">Request partner access <span class="btn-arrow">→</span></button>
-        <span class="cta-msg" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--gild);margin-top:.6rem;">✦ Thank you — we'll be in touch.</span>
+        <button type="submit" class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);">Request partner access <span class="btn-arrow">→</span></button>
+        <span class="cta-err" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:#e8856b;margin-top:.6rem;">Please enter a valid email address.</span>
+        <span class="cta-msg" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--gild);margin-top:.6rem;">✦ Opening your email client — please send the prefilled message to complete your request.</span>
       </form>
+      <p style="margin-top:1rem;font-family:var(--mono);font-size:.8rem;color:#9b8f78;text-align:center;">
+        This opens your email client. You can also contact us directly at
+        <a href="mailto:beta@vellumguard.com" style="color:var(--gild);">beta@vellumguard.com</a>
+      </p>
     </div>
   </div>
 </section>

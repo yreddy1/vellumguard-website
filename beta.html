@@ -176,14 +176,16 @@
       <p class="lead">Healthcare, defense, long-lived-data, and AI training-data use
         cases prioritized. Beta is free unless otherwise agreed in writing. No charges
         without a written agreement before GA.</p>
-      <form class="cta-actions" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('.cta-msg').hidden=false;">
+      <form class="cta-actions cta-form">
         <input type="email" required placeholder="you@company.com"
           style="font-family:var(--mono);font-size:.9rem;padding:.92em 1.2em;border:1.5px solid var(--ink);background:transparent;color:var(--ink);min-width:260px;" />
-        <button class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);color:var(--paper);">Apply for access <span class="btn-arrow">→</span></button>
-        <span class="cta-msg" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--rubric);margin-top:.6rem;">✦ Thank you — we'll be in touch.</span>
+        <button type="submit" class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);color:var(--paper);">Apply for access <span class="btn-arrow">→</span></button>
+        <span class="cta-err" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--rubric);margin-top:.6rem;">Please enter a valid email address.</span>
+        <span class="cta-msg" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--rubric);margin-top:.6rem;">✦ Opening your email client — please send the prefilled message to complete your request.</span>
       </form>
       <p style="margin-top:1rem;font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);">
-        Or email us directly: <a href="mailto:beta@vellumguard.com" style="color:var(--rubric);">beta@vellumguard.com</a><br />
+        This opens your email client. You can also contact us directly at
+        <a href="mailto:beta@vellumguard.com" style="color:var(--rubric);">beta@vellumguard.com</a><br />
         By applying you agree to our <a href="/privacy" style="color:var(--rubric);">Privacy Policy</a> and
         <a href="/terms" style="color:var(--rubric);">Terms of Service</a> (draft / under legal review).
       </p>

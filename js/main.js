@@ -36,6 +36,52 @@
     showAll();
   }
 
+  // --- request access forms (mailto) ---
+  document.querySelectorAll('.cta-form').forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var input  = form.querySelector('input[type="email"]');
+      var errEl  = form.querySelector('.cta-err');
+      var msgEl  = form.querySelector('.cta-msg');
+      var email  = (input.value || '').trim();
+
+      // Basic validation: non-empty, has @, has a dot after @
+      var atIdx = email.indexOf('@');
+      var valid = atIdx > 0 && email.indexOf('.', atIdx + 1) > atIdx + 1;
+
+      if (!valid) {
+        if (errEl) { errEl.hidden = false; }
+        input.focus();
+        return;
+      }
+      if (errEl) { errEl.hidden = true; }
+
+      var subject = 'VellumGuard design partner access request';
+      var body = [
+        'Hello VellumGuard team,',
+        '',
+        'I am interested in design partner access.',
+        '',
+        'Email:',
+        email,
+        '',
+        'Company:',
+        '(please add your company name)',
+        '',
+        'Use case:',
+        '(please add a short note about what you are building)'
+      ].join('\n');
+
+      window.location.href =
+        'mailto:beta@vellumguard.com' +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body='    + encodeURIComponent(body);
+
+      if (msgEl) { msgEl.hidden = false; }
+      setTimeout(function () { input.value = ''; }, 400);
+    });
+  });
+
   // --- footer year ---
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
