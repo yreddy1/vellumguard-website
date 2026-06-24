@@ -9,7 +9,7 @@
 <meta property="og:description" content="A hosted key management and encryption service with hybrid post-quantum crypto, Cloud KMS-backed key wrapping, and a full rotation lifecycle. For healthcare, SaaS, AI, and long-lived sensitive data. Controlled beta and design-partner access." />
 <meta property="og:type" content="website" />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-<link rel="stylesheet" href="css/style.css?v=2" />
+<link rel="stylesheet" href="css/style.css?v=3" />
 </head>
 <body>
 
@@ -23,7 +23,7 @@
     <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
     <ul class="nav-links">
       <li><a href="#how">How it works</a></li>
-      <li><a href="#features">Why VellumGuard</a></li>
+      <li><a href="/field-guides">Field Guides</a></li>
       <li><a href="/docs">Docs</a></li>
       <li><a href="/security">Security</a></li>
       <li><a href="#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
@@ -182,6 +182,57 @@
         <p>If you have been meaning to encrypt a specific data class — messages,
           documents, model weights, financial records — and kept deferring because
           key management is hard, this is the direct path.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FIELD GUIDES ===================== -->
+<section class="band band-tint" id="field-guides">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Field Guides</span>
+      <h2>Practical ways teams use VellumGuard.</h2>
+      <p class="lead">Short guides covering the problem, an example workflow, where
+        VellumGuard fits, and what it does not replace — for each use case.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal" data-d="1">
+        <h3>Healthcare and research records</h3>
+        <p>Protect clinical, research, and patient-adjacent records that may remain
+          sensitive for 10 or more years. Test application-layer encryption and
+          post-quantum migration paths without replacing every system at once.</p>
+        <p class="feat-caveat">Not HIPAA certified. No BAA in place.</p>
+        <a class="feat-link" href="/field-guides/healthcare-research-records">Read guide →</a>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>SaaS application encryption</h3>
+        <p>Add encryption, workspace-scoped API keys, identity-scoped authorization,
+          and audit events to a SaaS product without building a key-management platform
+          from scratch.</p>
+        <a class="feat-link" href="/field-guides/saas-application-encryption">Read guide →</a>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>AI training and evaluation data</h3>
+        <p>Protect sensitive datasets, embeddings, and evaluation payloads that require
+          long-term confidentiality and clear access boundaries across teams and
+          third-party contributors.</p>
+        <a class="feat-link" href="/field-guides/ai-training-data">Read guide →</a>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Government and defense-adjacent systems</h3>
+        <p>Start post-quantum migration at the application layer now. CNSA 2.0 sets
+          a 2035 deadline for national security systems. Building the implementation
+          early reduces the scope of the larger migration.</p>
+        <a class="feat-link" href="/field-guides/government-defense-data">Read guide →</a>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>CMMC-adjacent contractor workflows</h3>
+        <p>For defense contractors, VellumGuard can support application-layer
+          encryption, key-management discipline, and operational evidence within a
+          broader security program. It does not make an organization CMMC compliant.</p>
+        <p class="feat-caveat">Not a CMMC compliance platform. Does not replace a C3PAO assessment.</p>
+        <a class="feat-link" href="/field-guides/cmmc-contractor-workflows">Read guide →</a>
       </div>
     </div>
   </div>
@@ -459,17 +510,18 @@
         </ul>
       </div>
       <div>
-        <h4>Trust</h4>
+        <h4>Resources</h4>
         <ul>
+          <li><a href="/field-guides">Field Guides</a></li>
+          <li><a href="/white-papers">White Papers</a></li>
           <li><a href="/security">Security model</a></li>
           <li><a href="/docs#format">Ciphertext spec</a></li>
-          <li><a href="/security#compliance">Compliance status</a></li>
         </ul>
       </div>
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="#start">Design partner access</a></li>
+          <li><a href="/beta">Design partner access</a></li>
           <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
           <li><a href="https://github.com/vellumguard">GitHub</a></li>
           <li><a href="/privacy">Privacy</a></li>
@@ -484,6 +536,6 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 </body>
 </html>

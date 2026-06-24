@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Why Long-Lived Data Needs Post-Quantum Protection Now — VellumGuard</title>
+<meta name="description" content="A plain-language guide to why healthcare, government, research, AI, and intellectual property data may need protection beyond the expected lifetime of today's encryption assumptions." />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/css/style.css?v=3" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand" aria-label="VellumGuard home">
+      <span class="brand-mark">V</span>
+      <span class="brand-name">Vellum<span>Guard</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/field-guides">Field Guides</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/security">Security</a></li>
+      <li><a href="/beta" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow reveal">White Paper</span>
+    <h1 class="reveal" data-d="1">Why Long-Lived Data Needs Post-Quantum Protection Now</h1>
+    <p class="lead reveal" data-d="2">A plain-language guide to the threat model, the standards, and
+      what post-quantum encryption looks like for teams building applications that handle data
+      which has to stay confidential for years or decades.</p>
+  </div>
+</section>
+
+<section class="band" style="padding-top:1rem;">
+  <div class="wrap">
+    <div class="prose reveal">
+
+      <h2>Why long-lived data is different</h2>
+
+      <p>Most software encrypts data in transit and at rest. The encryption is strong by current
+        standards, and for data with a short sensitivity window — a session token, a payment
+        transaction, a temporary file — that is enough. The data loses its value before anyone
+        could break the encryption.</p>
+
+      <p>Long-lived data is different. A healthcare record may stay sensitive for 30 years.
+        A genomic dataset may be relevant for a researcher's entire career. A government contract
+        document may have implications for decades. Intellectual property in AI training data may
+        hold commercial value well past the model's release. For this class of data, the
+        protection has to last as long as the data does.</p>
+
+      <p>Today's most widely used asymmetric encryption — RSA and elliptic-curve schemes like
+        X25519 — is secure against classical computers. It is not secure against a sufficiently
+        capable quantum computer. The question is not whether capable quantum hardware will exist,
+        but when, and whether the data you are encrypting today will still need to be confidential
+        at that point.</p>
+
+      <h2>What "harvest now, decrypt later" means</h2>
+
+      <p>The threat has a name because it is a real operational tactic. An adversary collects
+        encrypted data today — from network traffic, from breached storage, from data shared
+        across systems — and stores it. They cannot read it now. But they are betting that
+        hardware will improve and that the data will still be valuable when it does.</p>
+
+      <p>This is not a theoretical concern. Nation-state adversaries have the storage capacity
+        and the motivation to collect encrypted data in bulk. The highest-value targets are the
+        ones with long-term significance: intelligence, medical research, engineering IP, government
+        operations, financial records that create long-term liability or advantage.</p>
+
+      <p>The important operational implication: the encryption you apply at data creation determines
+        the protection you have in the future. A file encrypted with RSA-2048 today that a
+        sufficiently capable quantum computer could break in 2036 was, in retrospect, unprotected.
+        There is no way to re-encrypt data that was already collected. The window to act is when
+        the data is written.</p>
+
+      <h2>Why application-layer encryption matters</h2>
+
+      <p>Infrastructure encryption — TLS in transit, at-rest encryption on a storage volume —
+        protects data from passive interception and media theft. It does not protect data from
+        someone with legitimate database access, a compromised credential, or a misconfigured
+        access policy. It also does not help if the harvested data was collected in transit
+        before decryption at the server.</p>
+
+      <p>Application-layer encryption adds a different kind of protection. The data is ciphertext
+        before it reaches storage. A breach of the database yields unreadable ciphertext, not
+        plaintext. An adversary who collected the data in transit, where TLS terminated at a
+        load balancer, still only gets ciphertext. The attacker also needs the private key
+        material, which is managed separately from the application.</p>
+
+      <p>For long-lived sensitive data, this layer matters particularly because the risk windows
+        are asymmetric. A storage breach might be discovered and contained in days or weeks.
+        A harvest-now collection event might not be acted on for a decade. Application-layer
+        encryption closes the second window because even a future adversary with quantum hardware
+        needs the private key — and private keys can be managed, rotated, and protected
+        independently of the data.</p>
+
+      <h2>Where post-quantum cryptography fits</h2>
+
+      <p>NIST published the first post-quantum cryptography standards in August 2024:</p>
+      <ul>
+        <li><strong>FIPS 203 (ML-KEM)</strong> — key encapsulation, replacing RSA and ECC-based key exchange</li>
+        <li><strong>FIPS 204 (ML-DSA)</strong> — digital signatures, replacing ECDSA and RSA signatures</li>
+        <li><strong>FIPS 205 (SLH-DSA)</strong> — hash-based signature alternative</li>
+      </ul>
+
+      <p>These algorithms are based on mathematical problems believed to be hard for both
+        classical computers and quantum computers — primarily lattice-based constructions (ML-KEM,
+        ML-DSA) and hash-based constructions (SLH-DSA). They are the result of a six-year
+        competition and standardization process run by NIST, with broad cryptographic community
+        review.</p>
+
+      <p>The recommended practice for most organizations migrating today is <strong>hybrid
+        cryptography</strong>: apply classical and post-quantum algorithms together on the same
+        data. If the post-quantum algorithm has an unforeseen weakness, the classical algorithm
+        still protects the data. If the classical algorithm is broken by quantum hardware, the
+        post-quantum algorithm still protects the data. You are never worse off than your
+        current baseline.</p>
+
+      <p>CNSA 2.0 (the Commercial National Security Algorithm Suite, version 2) requires
+        post-quantum algorithm adoption for national security systems by 2035. Organizations
+        with federal customers or defense-adjacent work are already in scope for planning and
+        migration timelines.</p>
+
+      <h2>How VellumGuard helps</h2>
+
+      <p>VellumGuard is a hosted encryption and key-management service that implements hybrid
+        post-quantum cryptography at the application layer. The cryptographic suite:</p>
+      <ul>
+        <li><strong>Key encapsulation:</strong> X25519 (classical) + ML-KEM-768 (FIPS 203) — both applied to every ciphertext</li>
+        <li><strong>Digital signatures:</strong> Ed25519 (classical) + ML-DSA-65 (FIPS 204) — both applied to every signed message</li>
+        <li><strong>Symmetric cipher:</strong> AES-256-GCM</li>
+        <li><strong>Key derivation:</strong> HKDF-SHA-256</li>
+        <li><strong>Security level:</strong> NIST Level 3</li>
+      </ul>
+
+      <p>VellumGuard handles key management: key generation, Cloud KMS-backed wrapping (raw DEKs
+        never touch disk or logs), active key promotion, multi-DEK runtime support, identity key
+        rewrap, and key retirement. The design is client-side encryption — plaintext is never
+        sent to VellumGuard's servers. The SDK encrypts on the application side; the API handles
+        key material and operations.</p>
+
+      <p>The ciphertext format is open and versioned, with published reference test vectors. Your
+        encrypted data is decryptable with any conforming implementation — not dependent on
+        VellumGuard's continued operation.</p>
+
+      <h2>Honest beta limitations</h2>
+
+      <p>VellumGuard is in controlled beta and design-partner access. The platform is live
+        and the key rotation lifecycle has been executed end-to-end in production. The current
+        limitations are real:</p>
+      <ul>
+        <li><strong>TypeScript SDK only.</strong> Python and Go are on the roadmap.</li>
+        <li><strong>No SOC 2 certification.</strong> Not HIPAA certified. No BAA.</li>
+        <li><strong>No formal SLA during beta.</strong> P0 issues get same-business-day response.</li>
+        <li><strong>Manual onboarding only.</strong> No self-serve portal or dashboard.</li>
+        <li><strong>No self-serve billing.</strong> Beta is free unless otherwise agreed in writing.</li>
+        <li><strong>Do not use regulated production data</strong> (PHI, CUI, PCI) without a separate written agreement.</li>
+      </ul>
+
+      <p>No charges without a written agreement before general availability.</p>
+
+      <h2>Next steps</h2>
+
+      <p>If you are building an application that handles data with a long sensitivity horizon
+        and want to evaluate post-quantum application-layer encryption in a controlled beta,
+        apply for design partner access or email us directly.</p>
+
+      <p>
+        <a href="/beta" class="btn btn-solid" style="text-decoration:none;">Apply for access →</a>
+      </p>
+
+      <p style="margin-top:1.2rem;font-size:.9rem;">
+        Email <a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a> ·
+        <a href="/field-guides">Field Guides</a> ·
+        <a href="/security">Security model</a> ·
+        <a href="/docs">SDK documentation</a>
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand" style="color:var(--paper);">
+          <span class="brand-mark" style="border-color:var(--paper);">V</span>
+          <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
+        </a>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/field-guides">Field Guides</a></li>
+          <li><a href="/white-papers">White Papers</a></li>
+          <li><a href="/security">Security model</a></li>
+          <li><a href="/docs#format">Ciphertext spec</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/beta">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
+          <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
+      <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Training and Evaluation Data — Field Guide — VellumGuard</title>
+<meta name="description" content="How AI teams can add long-term confidentiality, access scoping, and key management discipline to training datasets, evaluation pipelines, and research data." />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/css/style.css?v=3" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand" aria-label="VellumGuard home">
+      <span class="brand-mark">V</span>
+      <span class="brand-name">Vellum<span>Guard</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/field-guides">Field Guides</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/security">Security</a></li>
+      <li><a href="/beta" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow reveal">Field Guide</span>
+    <h1 class="reveal" data-d="1">Protecting AI Training and Evaluation Data</h1>
+    <p class="lead reveal" data-d="2">How AI teams can add long-term confidentiality, clear access
+      boundaries, and key management discipline to training datasets and evaluation pipelines.</p>
+  </div>
+</section>
+
+<section class="band" style="padding-top:1rem;">
+  <div class="wrap">
+    <div class="prose reveal">
+
+      <h2>The problem</h2>
+
+      <p>AI teams often treat training data security as an infrastructure question: private storage
+        bucket, IAM access controls, done. That works until a breach, a compromised credential,
+        or a future adversary with better hardware. Training data produced for a model released
+        in 2026 may be relevant to adversaries in 2036.</p>
+
+      <p>Application-layer encryption adds a second defense. Even if storage access is compromised,
+        ciphertext without the right keys is useless. For teams building with personal data,
+        proprietary examples, or commercially sensitive information, encryption at the application
+        layer is becoming a design requirement — not an audit afterthought.</p>
+
+      <p>Clear access boundaries also matter in practice. Third-party evaluators, external
+        researchers, and contracted annotators all need scoped, time-limited access to specific
+        data. Managing that at the API key level — with audit trails — is more reliable than
+        sharing bucket credentials and cleaning up afterward.</p>
+
+      <h2>Example workflow</h2>
+
+      <p>An AI research team processes proprietary evaluation datasets. Each dataset is encrypted
+        before storage with a dataset-specific key. Access to each key is identity-scoped — a
+        researcher with access to dataset A cannot use that credential to decrypt dataset B.
+        A third-party evaluator gets a time-limited API key scoped to a specific workspace.
+        After the engagement ends, that key is rotated.</p>
+
+      <p>The team has an audit log showing exactly who decrypted what and when. If a dataset is
+        later found to contain sensitive personal data that should not have been included, the
+        key can be retired and the data rendered inaccessible without deleting it from storage.</p>
+
+      <h2>Where VellumGuard fits</h2>
+      <ul>
+        <li>Encrypting training samples, evaluation payloads, model outputs, and research data before storage</li>
+        <li>Scoping access by dataset, pipeline stage, or contributor identity</li>
+        <li>Time-limited, workspace-scoped API keys for third-party evaluators or contractors</li>
+        <li>Audit events for every access to sensitive data</li>
+        <li>Key rotation when team composition or data sensitivity changes</li>
+        <li>Hybrid post-quantum crypto by default — data encrypted today remains protected longer</li>
+      </ul>
+
+      <h2>What teams can test in beta</h2>
+      <ul>
+        <li>Encrypting synthetic or non-sensitive training examples and measuring throughput impact</li>
+        <li>Building a key-per-dataset or key-per-pipeline-stage access pattern</li>
+        <li>Rotating a dataset key and confirming old credentials no longer decrypt</li>
+        <li>Walking through a simulated external evaluator engagement with scoped access</li>
+        <li>Reviewing the audit event log for a complete training or evaluation run</li>
+      </ul>
+
+      <h2>What VellumGuard does not replace</h2>
+
+      <p>VellumGuard encrypts data and manages keys. It does not replace:</p>
+      <ul>
+        <li>Model output security and alignment controls</li>
+        <li>Training infrastructure access management (IAM, VPC, compute policies)</li>
+        <li>Data governance programs and legal agreements around data provenance and use</li>
+        <li>Compliance with privacy regulations applicable to the training data (GDPR, CCPA, etc.)</li>
+        <li>Consent mechanisms or data subject rights workflows</li>
+      </ul>
+
+      <p>Not SOC 2 certified. No formal SLA during beta.</p>
+
+      <h2>Request design partner access</h2>
+
+      <p>If you are building AI infrastructure or research pipelines and want to add post-quantum
+        application-layer encryption to sensitive data in a controlled beta, apply for
+        design partner access. Beta is free unless otherwise agreed in writing.</p>
+
+      <p>
+        <a href="/beta" class="btn btn-solid" style="text-decoration:none;">Apply for access →</a>
+      </p>
+
+      <p style="margin-top:1.2rem;font-size:.9rem;">
+        Questions? Email <a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a> or
+        <a href="/field-guides">browse other field guides</a>.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand" style="color:var(--paper);">
+          <span class="brand-mark" style="border-color:var(--paper);">V</span>
+          <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
+        </a>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/field-guides">Field Guides</a></li>
+          <li><a href="/white-papers">White Papers</a></li>
+          <li><a href="/security">Security model</a></li>
+          <li><a href="/docs#format">Ciphertext spec</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/beta">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
+          <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
+      <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Healthcare &amp; Research Records — Field Guide — VellumGuard</title>
+<meta name="description" content="How teams can use VellumGuard to add post-quantum application-layer encryption to healthcare and research records. Practical guide covering the problem, workflow, and honest beta caveats." />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/css/style.css?v=3" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand" aria-label="VellumGuard home">
+      <span class="brand-mark">V</span>
+      <span class="brand-name">Vellum<span>Guard</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/field-guides">Field Guides</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/security">Security</a></li>
+      <li><a href="/beta" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow reveal">Field Guide</span>
+    <h1 class="reveal" data-d="1">Encrypting Healthcare and Research Records</h1>
+    <p class="lead reveal" data-d="2">A practical look at how teams can use VellumGuard to add post-quantum
+      application-layer encryption to patient-adjacent and research data — without
+      rebuilding existing systems from scratch.</p>
+  </div>
+</section>
+
+<section class="band" style="padding-top:1rem;">
+  <div class="wrap">
+    <div class="prose reveal">
+
+      <blockquote>
+        <strong>Beta caveat.</strong> VellumGuard is not HIPAA certified. No BAA is currently in place.
+        Do not process real PHI through VellumGuard without a separate written data-handling agreement.
+        Use test or synthetic data during beta integration.
+      </blockquote>
+
+      <h2>The problem</h2>
+
+      <p>Healthcare and research teams typically store sensitive data in databases and APIs behind
+        access controls. Those controls matter. But they protect the storage layer, not the data
+        itself. Application-layer encryption adds a second line: even if database access is
+        compromised, ciphertext without the right keys is unreadable.</p>
+
+      <p>The second problem is time. Clinical records, genomic data, and longitudinal research
+        results stay sensitive for decades. The cryptographic assumptions behind RSA and ECC — which
+        most software uses today — may not hold against a sufficiently capable quantum computer.
+        NIST finalized post-quantum cryptography standards in 2024 specifically because this risk is
+        real enough to plan around now.</p>
+
+      <p>"Harvest now, decrypt later" is the specific threat: adversaries can collect encrypted
+        records today and decrypt them when better hardware arrives. For data that needs to stay
+        confidential through 2035 and beyond, the encryption applied today determines the protection
+        you have then.</p>
+
+      <h2>Example workflow</h2>
+
+      <p>A health-tech team builds an integration layer for a clinical notes product. Patient notes
+        and intake forms are encrypted at the application layer before storage. Each clinical
+        provider gets a workspace with isolated key material. Audit events record every encryption
+        and decryption operation. When a provider offboards, their workspace key is rotated and
+        old identity keys are rewrapped.</p>
+
+      <p>The database contains only ciphertext. A breach of the database or its cloud storage
+        yields unreadable data — an attacker would also need the private key material, which is
+        managed separately in the VellumGuard KMS backed by Google Cloud KMS.</p>
+
+      <h2>Where VellumGuard fits</h2>
+      <ul>
+        <li>Encrypting application payloads — patient notes, intake forms, clinical summaries — before storage</li>
+        <li>Workspace isolation: each provider or research team gets separate key material</li>
+        <li>Identity-scoped authorization: individual users have individual encryption identities</li>
+        <li>Full key rotation lifecycle — generate, promote, rewrap, retire — with audit records preserved</li>
+        <li>Security events for every key operation, queryable and durable</li>
+        <li>NIST-standardized hybrid post-quantum crypto: X25519 + ML-KEM-768, Ed25519 + ML-DSA-65</li>
+      </ul>
+
+      <h2>What teams can test in beta</h2>
+      <ul>
+        <li>TypeScript SDK integration with synthetic or test patient data</li>
+        <li>Workspace-per-provider key isolation and access scoping</li>
+        <li>The complete key rotation lifecycle: promote, rewrap, retire</li>
+        <li>Reviewing the audit event log for compliance documentation purposes</li>
+        <li>Comparing hybrid post-quantum encryption performance against current implementations</li>
+        <li>Walking through what a PHI breach scenario looks like when data is encrypted at the application layer</li>
+      </ul>
+
+      <h2>What VellumGuard does not replace</h2>
+
+      <p>VellumGuard handles one specific thing: application-layer encryption and key management.
+        It is not a HIPAA compliance program. It does not replace:</p>
+      <ul>
+        <li>Infrastructure-layer access controls (IAM, network policies, storage ACLs)</li>
+        <li>Audit logging at the network or database layer</li>
+        <li>HIPAA-required administrative, physical, and technical safeguards</li>
+        <li>Staff security and privacy training</li>
+        <li>Incident response planning and breach notification procedures</li>
+        <li>Business Associate Agreements with downstream processors</li>
+        <li>Any other component of a healthcare compliance program</li>
+      </ul>
+
+      <p>VellumGuard may strengthen application-layer data protection as one component of a
+        broader security program. It does not certify or satisfy HIPAA requirements on its own.</p>
+
+      <h2>Request design partner access</h2>
+
+      <p>If you are building a healthcare or research application and want to test post-quantum
+        encryption in a controlled beta environment, apply for design partner access.
+        Beta is free unless otherwise agreed in writing. No charges without a written agreement
+        before general availability.</p>
+
+      <p>
+        <a href="/beta" class="btn btn-solid" style="text-decoration:none;">Apply for access →</a>
+      </p>
+
+      <p style="margin-top:1.2rem;font-size:.9rem;">
+        Questions? Email <a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a> or
+        <a href="/field-guides">browse other field guides</a>.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand" style="color:var(--paper);">
+          <span class="brand-mark" style="border-color:var(--paper);">V</span>
+          <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
+        </a>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/field-guides">Field Guides</a></li>
+          <li><a href="/white-papers">White Papers</a></li>
+          <li><a href="/security">Security model</a></li>
+          <li><a href="/docs#format">Ciphertext spec</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/beta">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
+          <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
+      <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>

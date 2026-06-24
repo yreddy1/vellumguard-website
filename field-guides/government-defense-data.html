@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Government &amp; Defense-Adjacent Systems — Field Guide — VellumGuard</title>
+<meta name="description" content="How teams with federal customers or defense-adjacent work can start application-layer post-quantum migration now, before broader infrastructure programs are finalized. Includes CNSA 2.0 context." />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/css/style.css?v=3" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand" aria-label="VellumGuard home">
+      <span class="brand-mark">V</span>
+      <span class="brand-name">Vellum<span>Guard</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/field-guides">Field Guides</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/security">Security</a></li>
+      <li><a href="/beta" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow reveal">Field Guide</span>
+    <h1 class="reveal" data-d="1">Post-Quantum Migration Planning for Government and Defense-Adjacent Systems</h1>
+    <p class="lead reveal" data-d="2">How teams with federal customers or defense-adjacent work can start
+      application-layer post-quantum encryption now — without waiting for broader
+      infrastructure programs to be finalized.</p>
+  </div>
+</section>
+
+<section class="band" style="padding-top:1rem;">
+  <div class="wrap">
+    <div class="prose reveal">
+
+      <blockquote>
+        <strong>Important.</strong> VellumGuard is not a certified compliance platform. It does not
+        satisfy NIST SP 800-171, CMMC, or any defense contract security requirement on its own.
+        Do not process CUI (Controlled Unclassified Information) or regulated production data
+        through VellumGuard without a separate written agreement.
+      </blockquote>
+
+      <h2>The problem</h2>
+
+      <p>CNSA 2.0 (Commercial National Security Algorithm Suite, version 2) sets a 2035 migration
+        deadline for national security systems. For organizations with defense or federal customers,
+        post-quantum readiness is increasingly a procurement and planning question — not a
+        future consideration.</p>
+
+      <p>Large migration programs take years. Infrastructure changes, protocol updates, hardware
+        replacements — these cannot happen overnight. But application-layer encryption can start
+        now. Starting now builds practical experience, creates auditable evidence of post-quantum
+        readiness, and reduces the scope of the larger migration when it arrives.</p>
+
+      <p>The specific threat model is "harvest now, decrypt later": adversaries collecting
+        government or defense-adjacent data today may be betting on the ability to decrypt it
+        when capable quantum hardware becomes available. For data with a long sensitivity window,
+        the encryption applied at creation time is the protection you will be relying on.</p>
+
+      <h2>Example workflow</h2>
+
+      <p>A defense contractor maintains an internal coordination portal where engineers share
+        project analysis outputs, deliverable reviews, and partner communications. They want to
+        encrypt those payloads at the application layer using NIST-standardized post-quantum
+        algorithms, separate access by project workspace, and generate auditable key lifecycle
+        records that show post-quantum encryption was in use.</p>
+
+      <p>After deploying VellumGuard, they can document: which NIST algorithms are used,
+        which keys protect which workspaces, when keys were promoted or rotated, and who
+        has access to each workspace's key material. That documentation supports post-quantum
+        readiness discussions with customers, auditors, and procurement officers.</p>
+
+      <h2>Where VellumGuard fits</h2>
+      <ul>
+        <li>Hybrid post-quantum encryption at the application layer: X25519 + ML-KEM-768 and Ed25519 + ML-DSA-65</li>
+        <li>NIST-standardized algorithms only — FIPS 203 (ML-KEM) and FIPS 204 (ML-DSA)</li>
+        <li>Workspace separation and identity-scoped API keys for per-project or per-partner isolation</li>
+        <li>Audit events for every key operation: promote, rewrap, retire, decrypt</li>
+        <li>A concrete post-quantum implementation that supports migration planning documentation</li>
+        <li>Cloud KMS-backed key wrapping: DEKs are wrapped by Google Cloud KMS and never touch disk or logs in plaintext</li>
+      </ul>
+
+      <h2>What teams can test in beta</h2>
+      <ul>
+        <li>Encrypting internal application payloads with hybrid post-quantum crypto using test data</li>
+        <li>Reviewing NIST algorithm choices for security documentation and procurement responses</li>
+        <li>Running the full key rotation lifecycle: generate, promote, rewrap, retire</li>
+        <li>Generating audit event logs for key operations to support compliance documentation</li>
+        <li>Evaluating SDK integration effort for existing Node/TypeScript applications</li>
+        <li>Walking through how the ciphertext format and algorithm choices align with CNSA 2.0 guidance</li>
+      </ul>
+
+      <h2>What VellumGuard does not replace</h2>
+
+      <p>VellumGuard handles application-layer encryption and key management. It does not replace
+        or certify compliance with:</p>
+      <ul>
+        <li>NIST SP 800-171 or NIST SP 800-172 (CUI protection requirements)</li>
+        <li>CMMC practices or assessment requirements (see the <a href="/field-guides/cmmc-contractor-workflows">CMMC field guide</a>)</li>
+        <li>Network-layer encryption migration (TLS, VPN, protocol updates)</li>
+        <li>Endpoint security controls</li>
+        <li>Identity and access management programs</li>
+        <li>Defense contract security requirements or DFARS clauses</li>
+        <li>SIEM, log aggregation, or monitoring programs</li>
+      </ul>
+
+      <p>No compliance certifications are in place. No formal SLA during beta. Use test or
+        synthetic data unless separately agreed in writing.</p>
+
+      <h2>Request design partner access</h2>
+
+      <p>If you are building systems for government or defense-adjacent customers and want to
+        begin post-quantum application-layer encryption in a controlled beta, apply for
+        design partner access.</p>
+
+      <p>
+        <a href="/beta" class="btn btn-solid" style="text-decoration:none;">Apply for access →</a>
+      </p>
+
+      <p style="margin-top:1.2rem;font-size:.9rem;">
+        Questions? Email <a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a> or
+        <a href="/field-guides">browse other field guides</a>.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand" style="color:var(--paper);">
+          <span class="brand-mark" style="border-color:var(--paper);">V</span>
+          <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
+        </a>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/field-guides">Field Guides</a></li>
+          <li><a href="/white-papers">White Papers</a></li>
+          <li><a href="/security">Security model</a></li>
+          <li><a href="/docs#format">Ciphertext spec</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/beta">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
+          <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
+      <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>
