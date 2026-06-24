@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Security — VellumGuard</title>
-<meta name="description" content="VellumGuard's security model: hybrid post-quantum cryptography, plaintext never leaves your infrastructure, audited primitives, and a compliance roadmap." />
+<meta name="description" content="VellumGuard's security model: hybrid post-quantum cryptography, Cloud KMS-backed DEK wrapping, workspace-scoped API keys, and an honest compliance status." />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -20,10 +20,9 @@
     <ul class="nav-links">
       <li><a href="/#how">How it works</a></li>
       <li><a href="/#features">Why VellumGuard</a></li>
-      <li><a href="/pricing">Pricing</a></li>
       <li><a href="/docs">Docs</a></li>
       <li><a href="/security">Security</a></li>
-      <li><a href="/#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Get a key</a></li>
+      <li><a href="/#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
     </ul>
   </div>
 </nav>
@@ -63,14 +62,27 @@
           is no home-grown cryptography in the stack — deliberately the boring choice.</p>
       </div>
       <div class="feat reveal" data-d="1">
-        <h3>Keys in hardware</h3>
-        <p>Workspace key-encryption keys live in a hardware security module and are never
-          exported. Identity private keys are stored only in wrapped form.</p>
+        <h3>Cloud KMS-backed key wrapping</h3>
+        <p>DEKs (data-encryption keys) are wrapped by Google Cloud KMS. The raw DEK is
+          held in process memory only — never written to disk or logs. Identity private
+          key blobs are stored in wrapped, AES-256-GCM-encrypted form only.</p>
       </div>
       <div class="feat reveal" data-d="2">
         <h3>Open ciphertext format</h3>
         <p>The wire format is published with reference test vectors. If VellumGuard ever
           disappeared, your data would remain decryptable with any conforming tool.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>Workspace-scoped API keys</h3>
+        <p>Each workspace uses a separate, revocable API key. Keys are stored as
+          one-way hashes. Identity-scoped authorization allows per-key allow-lists for
+          fine-grained access control.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Durable audit &amp; security events</h3>
+        <p>Every authorization decision, key lifecycle operation (promote, rewrap, retire),
+          and SDK call is recorded in a queryable security-events table. Rate limiting is
+          enforced and recorded. Startup key-unwrap is confirmed per instance.</p>
       </div>
     </div>
   </div>
@@ -88,8 +100,8 @@
       <li>A future quantum adversary recording ciphertext today to break later.</li>
       <li>Forged signatures from a quantum-capable attacker.</li>
       <li>Compromise of VellumGuard's own infrastructure — customer plaintext was never
-        there, and identity keys are wrapped under an HSM-held key.</li>
-      <li>Leaked workspace API keys — scoped, revocable, and rate-limited.</li>
+        there, and identity private keys are stored in Cloud KMS-wrapped encrypted form.</li>
+      <li>Leaked workspace API keys — scoped, revocable, hashed at rest, rate-limited.</li>
       <li>Replay attacks — nonces and timestamps are bound into every ciphertext.</li>
     </ul>
 
@@ -108,22 +120,27 @@
 <section class="band" id="compliance">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Compliance</span>
-      <h2>The artifacts a security review asks for.</h2>
-      <p>VellumGuard is built so a compliance team's questionnaire is quick to answer.</p>
+      <span class="eyebrow">Compliance status</span>
+      <h2>Honest about where we are.</h2>
+      <p>VellumGuard is beta / design-partner ready. The table below reflects the current
+        state — not the roadmap.</p>
     </div>
     <div class="spec reveal">
-      <div class="spec-row"><span class="spec-k">HIPAA BAA</span><span class="spec-v">Available · Business tier</span></div>
-      <div class="spec-row"><span class="spec-k">SOC 2 Type II</span><span class="spec-v">In progress</span></div>
-      <div class="spec-row"><span class="spec-k">Penetration testing</span><span class="spec-v">Annual · third-party</span></div>
-      <div class="spec-row"><span class="spec-k">Audit trail</span><span class="spec-v">Append-only · exportable</span></div>
-      <div class="spec-row"><span class="spec-k">Key management</span><span class="spec-v">HSM-backed</span></div>
-      <div class="spec-row"><span class="spec-k">Data residency</span><span class="spec-v">US · EU region planned</span></div>
-      <div class="spec-row"><span class="spec-k">FedRAMP</span><span class="spec-v">Roadmap · Enterprise</span></div>
-      <div class="spec-row"><span class="spec-k">Sub-processors</span><span class="spec-v">Published list</span></div>
+      <div class="spec-row"><span class="spec-k">SOC 2 Type II</span><span class="spec-v">Not yet — planned pre-GA</span></div>
+      <div class="spec-row"><span class="spec-k">HIPAA certification</span><span class="spec-v">Not yet — no BAA currently available</span></div>
+      <div class="spec-row"><span class="spec-k">Penetration testing</span><span class="spec-v">Planned — not yet completed</span></div>
+      <div class="spec-row"><span class="spec-k">Audit trail</span><span class="spec-v">Live · security_events + audit_events tables</span></div>
+      <div class="spec-row"><span class="spec-k">Key management</span><span class="spec-v">Google Cloud KMS-backed DEK wrapping</span></div>
+      <div class="spec-row"><span class="spec-k">Backup restore</span><span class="spec-v">Verified 2026-06-19 · Cloud SQL automated backups</span></div>
+      <div class="spec-row"><span class="spec-k">Uptime monitoring</span><span class="spec-v">GCP uptime check on /healthz/ · 1-minute alert</span></div>
+      <div class="spec-row"><span class="spec-k">Incident response</span><span class="spec-v">Documented · P0/P1/P2 severity levels defined</span></div>
+      <div class="spec-row"><span class="spec-k">FedRAMP</span><span class="spec-v">Roadmap · not scoped for beta</span></div>
+      <div class="spec-row"><span class="spec-k">Data residency</span><span class="spec-v">US (us-east1) · EU region not yet available</span></div>
     </div>
     <p style="margin-top:1.5rem;font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);">
-      Status reflects the current build phase and is updated as certifications complete.</p>
+      Do not use VellumGuard for regulated production PHI, PCI card data, or similarly
+      regulated data without a separate written data-handling agreement. Contact
+      beta@vellumguard.com to discuss your specific use case.</p>
   </div>
 </section>
 
@@ -150,36 +167,38 @@
           <span class="brand-mark" style="border-color:var(--paper);">V</span>
           <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
         </a>
-        <p>Post-quantum encryption for developers.</p>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="/#how">How it works</a></li>
           <li><a href="/#features">Features</a></li>
-          <li><a href="/pricing">Pricing</a></li>
           <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
         </ul>
       </div>
       <div>
         <h4>Trust</h4>
         <ul>
-          <li><a href="/security">Security</a></li>
+          <li><a href="/security">Security model</a></li>
           <li><a href="/docs#format">Ciphertext spec</a></li>
-          <li><a href="/security#compliance">Compliance</a></li>
+          <li><a href="/security#compliance">Compliance status</a></li>
         </ul>
       </div>
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="/#start">Early access</a></li>
-          <li><a href="mailto:hello@vellumguard.com">Contact</a></li>
+          <li><a href="/#start">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
           <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bot">
-      <span>© <span id="year">2026</span> VellumGuard. All rights reserved.</span>
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
       <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
     </div>
   </div>

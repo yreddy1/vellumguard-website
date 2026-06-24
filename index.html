@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VellumGuard — Post-quantum encryption for developers</title>
-<meta name="description" content="VellumGuard is the developer API for post-quantum encryption. Five lines of code to add hybrid classical + post-quantum encryption to your app. NIST-standardized, HIPAA-ready." />
-<meta property="og:title" content="VellumGuard — Post-quantum encryption for developers" />
-<meta property="og:description" content="Five lines of code. Hybrid post-quantum encryption. Built for data that has to outlive the quantum era." />
+<title>VellumGuard — Post-quantum encryption infrastructure for developers</title>
+<meta name="description" content="VellumGuard is a hosted KMS for post-quantum encryption. Hybrid classical + post-quantum crypto, Cloud KMS-backed key wrapping, and a proven key rotation lifecycle. Beta / design-partner access." />
+<meta property="og:title" content="VellumGuard — Post-quantum encryption infrastructure" />
+<meta property="og:description" content="Hybrid post-quantum encryption as a hosted service. Cloud KMS-backed DEK wrapping, workspace-scoped API keys, and a proven rotation lifecycle. Built for data that has to outlive the quantum era." />
 <meta property="og:type" content="website" />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="css/style.css" />
@@ -24,10 +24,9 @@
     <ul class="nav-links">
       <li><a href="#how">How it works</a></li>
       <li><a href="#features">Why VellumGuard</a></li>
-      <li><a href="/pricing">Pricing</a></li>
       <li><a href="/docs">Docs</a></li>
       <li><a href="/security">Security</a></li>
-      <li><a href="#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Get a key</a></li>
+      <li><a href="#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
     </ul>
   </div>
 </nav>
@@ -36,24 +35,24 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <p class="hero-folio reveal">Folio I · Post-quantum encryption as a service</p>
+      <p class="hero-folio reveal">Folio I · Post-quantum encryption infrastructure</p>
       <h1 class="reveal" data-d="1">
-        Encryption that <span class="rubric">outlives</span><br />
-        the <span class="ghost">quantum era.</span>
+        Post-quantum encryption<br />
+        for the <span class="rubric">quantum era.</span>
       </h1>
       <p class="lead hero-lead reveal" data-d="2">
-        VellumGuard is the developer API for post-quantum encryption. Five lines of
-        TypeScript add hybrid classical&nbsp;+&nbsp;post-quantum protection to your app —
-        no cryptography degree required.
+        VellumGuard gives developers a hosted key-management and encryption layer
+        for long-lived sensitive data — with hybrid post-quantum cryptography,
+        auditability, and a proven Cloud KMS-backed key rotation lifecycle.
       </p>
       <div class="hero-actions reveal" data-d="3">
-        <a href="#start" class="btn btn-solid">Get an API key <span class="btn-arrow">→</span></a>
-        <a href="/docs" class="btn btn-ghost">Read the docs</a>
+        <a href="#start" class="btn btn-solid">Request Design Partner Access <span class="btn-arrow">→</span></a>
+        <a href="/docs" class="btn btn-ghost">View SDK Quickstart</a>
       </div>
       <div class="hero-trust reveal" data-d="3">
         <span><b>NIST-standardized</b> · ML-KEM-768 · ML-DSA-65</span>
         <span><b>Hybrid by default</b> · X25519 + post-quantum</span>
-        <span><b>HIPAA BAA</b> available</span>
+        <span><b>Beta · design-partner access</b></span>
       </div>
     </div>
 
@@ -67,17 +66,18 @@
         <div class="code-body">
 <span class="ln"><span class="tk-kw">import</span> { VellumGuard, HttpKmsClient } <span class="tk-kw">from</span> <span class="tk-str">"@vellumguard/sdk"</span>;</span>
 <span class="ln"> </span>
-<span class="ln"><span class="tk-kw">const</span> vg = <span class="tk-kw">new</span> <span class="tk-fn">VellumGuard</span>({</span>
-<span class="ln">  kms: <span class="tk-kw">new</span> <span class="tk-fn">HttpKmsClient</span>({ apiKey }),</span>
+<span class="ln"><span class="tk-kw">const</span> kms = <span class="tk-kw">new</span> <span class="tk-fn">HttpKmsClient</span>({</span>
+<span class="ln">  baseUrl: <span class="tk-str">"https://api.vellumguard.com"</span>,</span>
+<span class="ln">  apiKey: process.env.<span class="tk-fn">VELLUMGUARD_API_KEY</span>!,</span>
 <span class="ln">});</span>
+<span class="ln"><span class="tk-kw">const</span> vg = <span class="tk-kw">new</span> <span class="tk-fn">VellumGuard</span>({ kms });</span>
 <span class="ln"> </span>
 <span class="ln"><span class="tk-cm">// hybrid post-quantum, one call</span></span>
 <span class="ln"><span class="tk-kw">const</span> sealed = <span class="tk-kw">await</span> vg.<span class="tk-fn">encrypt</span>({</span>
 <span class="ln">  data: <span class="tk-str">"patient note: BP 120/80"</span>,</span>
 <span class="ln">  recipient: <span class="tk-str">"user_abc123"</span>,</span>
-<span class="ln">  signAs: <span class="tk-str">"service_key"</span>,</span>
+<span class="ln">  signAs: <span class="tk-str">"user_abc123"</span>,</span>
 <span class="ln">});</span>
-<span class="ln"> </span>
 <span class="ln"><span class="tk-kw">const</span> { data } = <span class="tk-kw">await</span> vg.<span class="tk-fn">decrypt</span>(sealed, <span class="tk-str">"user_abc123"</span>);</span>
         </div>
       </div>
@@ -128,10 +128,33 @@
       <div class="problem-card reveal" data-d="3">
         <div class="problem-num">03</div>
         <h3>The data is long-lived</h3>
-        <p>Medical records, financial accounts, legal files, intellectual property — data
-          with a multi-decade sensitivity horizon is exactly what a future quantum
-          adversary would target.</p>
+        <p>Healthcare records, government and defense data, intellectual property, AI
+          training data — anything with a multi-decade sensitivity horizon is exactly what
+          a future quantum adversary would target.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRACTION ===================== -->
+<section class="band band-tint" id="status">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Platform status</span>
+      <h2>Live platform. Proven rotation lifecycle.</h2>
+      <p class="lead">The infrastructure is running. The key rotation lifecycle has been
+        executed end-to-end in production.</p>
+    </div>
+    <div class="spec reveal">
+      <div class="spec-row"><span class="spec-k">Hosted KMS API</span><span class="spec-v">Live · https://api.vellumguard.com</span></div>
+      <div class="spec-row"><span class="spec-k">TypeScript SDK</span><span class="spec-v">Live · @vellumguard/sdk on npm</span></div>
+      <div class="spec-row"><span class="spec-k">Cloud KMS-backed DEK wrapping</span><span class="spec-v">Live · Google Cloud KMS</span></div>
+      <div class="spec-row"><span class="spec-k">DB-backed KEK registry</span><span class="spec-v">Live · versioned, multi-DEK runtime</span></div>
+      <div class="spec-row"><span class="spec-k">Production rewrap completed</span><span class="spec-v">v1 → v2 identity-key rewrap executed</span></div>
+      <div class="spec-row"><span class="spec-k">Old KEK retired</span><span class="spec-v">v1 logically retired; row preserved for audit</span></div>
+      <div class="spec-row"><span class="spec-k">Audit &amp; security events</span><span class="spec-v">Live · startup, promote, rewrap, retire</span></div>
+      <div class="spec-row"><span class="spec-k">Backup restore verified</span><span class="spec-v">Cloud SQL restore tested 2026-06-19</span></div>
+      <div class="spec-row"><span class="spec-k">Uptime monitoring</span><span class="spec-v">GCP uptime check on /healthz/</span></div>
     </div>
   </div>
 </section>
@@ -146,21 +169,24 @@
     <div class="steps">
       <div class="step reveal" data-d="1">
         <div class="step-k">Step i</div>
-        <h3>Install the SDK</h3>
-        <p>One package. TypeScript first, with Python and Go close behind. Hybrid
-          encryption is the default — never an option you can forget to switch on.</p>
+        <h3>Install the SDK, call encrypt</h3>
+        <p>One npm package. Address encrypted data to your own user IDs — not raw keys.
+          The SDK calls the hosted KMS to resolve each identity's public key and returns
+          a sealed ciphertext. No key bytes, no algorithm choices.</p>
       </div>
       <div class="step reveal" data-d="2">
         <div class="step-k">Step ii</div>
-        <h3>Encrypt to an identity</h3>
-        <p>Address data to your own user IDs — not raw keys. VellumGuard's hosted key
-          service handles generation, lookup, and rotation behind the scenes.</p>
+        <h3>Hosted KMS, Cloud KMS-backed keys</h3>
+        <p>Private key blobs live encrypted in the VellumGuard database. DEKs are wrapped
+          by Google Cloud KMS — the raw DEK never touches disk or logs. The KEK registry
+          tracks active, rotated, and retired key versions for a full audit trail.</p>
       </div>
       <div class="step reveal" data-d="3">
         <div class="step-k">Step iii</div>
         <h3>Decrypt &amp; audit</h3>
-        <p>Recipients decrypt with one call. Every operation lands in an append-only
-          trail your compliance team can actually use.</p>
+        <p>Recipients decrypt with one SDK call. Every encrypt, decrypt, key promotion,
+          rewrap, and retire operation is recorded in the security and audit event log
+          — a queryable, durable record your team can actually use.</p>
       </div>
     </div>
   </div>
@@ -221,9 +247,10 @@
             <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
           </svg>
         </div>
-        <h3>Compliance-ready</h3>
-        <p>HIPAA BAA, SOC&nbsp;2, audit trails, and key-rotation policy out of the box —
-          the artifacts a security review asks for, ready before they ask.</p>
+        <h3>Durable audit trail</h3>
+        <p>Every authorization decision, key operation, and SDK call is recorded. Workspace-
+          scoped API keys with identity-scoped authorization let you answer exactly who
+          accessed what — and when.</p>
       </div>
       <div class="feat reveal" data-d="2">
         <div class="feat-icon" aria-hidden="true">
@@ -254,50 +281,62 @@
       <div class="spec-row"><span class="spec-k">Symmetric cipher</span><span class="spec-v">AES-256-GCM</span></div>
       <div class="spec-row"><span class="spec-k">Key derivation</span><span class="spec-v">HKDF-SHA-256</span></div>
       <div class="spec-row"><span class="spec-k">Security level</span><span class="spec-v">NIST Level 3</span></div>
-      <div class="spec-row"><span class="spec-k">Key rotation</span><span class="spec-v">90-day default policy</span></div>
-      <div class="spec-row"><span class="spec-k">Format</span><span class="spec-v">Versioned · open spec</span></div>
-      <div class="spec-row"><span class="spec-k">SDKs</span><span class="spec-v">TypeScript · Python · Go</span></div>
+      <div class="spec-row"><span class="spec-k">DEK wrapping</span><span class="spec-v">Google Cloud KMS · AES-256-GCM envelope</span></div>
+      <div class="spec-row"><span class="spec-k">Format</span><span class="spec-v">Versioned · open spec · v1 base</span></div>
+      <div class="spec-row"><span class="spec-k">SDKs</span><span class="spec-v">TypeScript (live) · Python &amp; Go (coming)</span></div>
     </div>
   </div>
 </section>
 
-<!-- ===================== PRICING PREVIEW ===================== -->
-<section class="band band-tint" id="pricing-preview">
+<!-- ===================== KEY ROTATION ===================== -->
+<section class="band band-tint" id="rotation">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Pricing</span>
-      <h2>Start free. Scale to compliance-ready in one click.</h2>
-      <p>No sales call to get going. The full breakdown lives on the
-        <a href="/pricing" style="color:var(--rubric);">pricing page</a>.</p>
+      <span class="eyebrow">Key management</span>
+      <h2>Key rotation is not a slideware feature.</h2>
+      <p class="lead">The full lifecycle has been executed in production. Every step is
+        audited. Old key rows are preserved — never deleted.</p>
     </div>
-    <div class="price-grid">
-      <div class="price reveal" data-d="1">
-        <div class="price-tier">Free</div>
-        <div class="price-amt">$0</div>
-        <p class="price-desc">For evaluation and side projects.</p>
-        <ul><li>10K operations / mo</li><li>Community support</li><li>Hosted key service</li></ul>
-        <a href="#start" class="btn btn-ghost">Start free</a>
+    <div class="spec reveal">
+      <div class="spec-row"><span class="spec-k">1. Generate &amp; wrap</span><span class="spec-v">Fresh DEK generated, wrapped by Cloud KMS immediately</span></div>
+      <div class="spec-row"><span class="spec-k">2. Register KEK</span><span class="spec-v">New version registered in the KEK registry (inactive)</span></div>
+      <div class="spec-row"><span class="spec-k">3. Multi-DEK runtime</span><span class="spec-v">Service loads v1 + v2 at startup; decrypts each row with its own DEK</span></div>
+      <div class="spec-row"><span class="spec-k">4. Promote</span><span class="spec-v">v2 promoted active; new identities encrypted with v2 DEK</span></div>
+      <div class="spec-row"><span class="spec-k">5. Rewrap identities</span><span class="spec-v">All identity blobs re-encrypted v1 → v2 in audited batches</span></div>
+      <div class="spec-row"><span class="spec-k">6. Retire old KEK</span><span class="spec-v">v1 logically retired; DB row + wrapped DEK retained for forensics</span></div>
+      <div class="spec-row"><span class="spec-k">Audit events</span><span class="spec-v">key.kek.promoted · key.rewrap.* · key.kek.retired recorded</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BETA CAVEATS ===================== -->
+<section class="band" id="beta">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Beta readiness</span>
+      <h2>What you are getting into — honestly.</h2>
+      <p class="lead">VellumGuard is available for controlled beta and design-partner
+        access. The platform is live. The limitations below are real.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal" data-d="1">
+        <h3>What is ready</h3>
+        <p>Hosted KMS API, TypeScript SDK, Cloud KMS DEK wrapping, full key rotation
+          lifecycle, workspace-scoped API keys, identity-scoped authorization, audit and
+          security events, backup restore verified, uptime monitoring configured.</p>
       </div>
-      <div class="price featured reveal" data-d="2">
-        <div class="price-tier">Pro</div>
-        <div class="price-amt">$199<small> / mo</small></div>
-        <p class="price-desc">For the questionnaire due Friday.</p>
-        <ul><li>1M operations / mo</li><li>Audit logs</li><li>Email support</li></ul>
-        <a href="#start" class="btn btn-solid">Choose Pro</a>
+      <div class="feat reveal" data-d="2">
+        <h3>What is not ready yet</h3>
+        <p>TypeScript SDK only (Python and Go coming). No developer portal or dashboard.
+          No BYOK / customer-managed keys. No self-serve billing. Manual onboarding only.
+          Not SOC&nbsp;2 certified. Not HIPAA certified. No BAA. No formal SLA during beta.</p>
       </div>
-      <div class="price reveal" data-d="3">
-        <div class="price-tier">Business</div>
-        <div class="price-amt">$1,500<small> / mo</small></div>
-        <p class="price-desc">For teams with compliance needs.</p>
-        <ul><li>10M operations / mo</li><li>HIPAA BAA + SOC 2</li><li>SSO &amp; SLA</li></ul>
-        <a href="/pricing" class="btn btn-ghost">See details</a>
-      </div>
-      <div class="price reveal" data-d="3">
-        <div class="price-tier">Enterprise</div>
-        <div class="price-amt">Custom</div>
-        <p class="price-desc">For self-hosted &amp; federal.</p>
-        <ul><li>Self-hosted key service</li><li>FedRAMP roadmap</li><li>Dedicated support</li></ul>
-        <a href="/pricing" class="btn btn-ghost">Talk to us</a>
+      <div class="feat reveal" data-d="1">
+        <h3>Data use</h3>
+        <p>Use test or synthetic data during beta integration. Do not send PHI, PCI card
+          data, or other regulated production data without a separate written
+          data-handling agreement. Contact <a href="mailto:beta@vellumguard.com" style="color:var(--rubric);">beta@vellumguard.com</a> to discuss
+          before sending regulated data.</p>
       </div>
     </div>
   </div>
@@ -307,15 +346,16 @@
 <section class="band band-ink" id="start">
   <div class="wrap">
     <div class="cta-box reveal">
-      <span class="eyebrow">Begin the folio</span>
-      <h2>Put post-quantum encryption in your app this week.</h2>
-      <p class="lead">Join the early-access waitlist. We're onboarding a small group of
-        design partners — healthcare teams first.</p>
+      <span class="eyebrow">Design partner program</span>
+      <h2>Build with post-quantum encryption — before your competitors have to.</h2>
+      <p class="lead">We are onboarding a small group of design partners. Healthcare,
+        defense, and long-lived-data use cases prioritized. Beta is free unless
+        otherwise agreed in writing.</p>
       <form class="cta-actions" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('.cta-msg').hidden=false;">
         <input type="email" required placeholder="you@company.com"
           style="font-family:var(--mono);font-size:.9rem;padding:.92em 1.2em;border:1.5px solid var(--paper);background:transparent;color:var(--paper);min-width:260px;" />
-        <button class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);">Request access <span class="btn-arrow">→</span></button>
-        <span class="cta-msg" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--gild);margin-top:.6rem;">✦ Thank you — we'll be in touch. (Wire this form to your provider before launch.)</span>
+        <button class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);">Request partner access <span class="btn-arrow">→</span></button>
+        <span class="cta-msg" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--gild);margin-top:.6rem;">✦ Thank you — we'll be in touch.</span>
       </form>
     </div>
   </div>
@@ -330,37 +370,38 @@
           <span class="brand-mark" style="border-color:var(--paper);">V</span>
           <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
         </a>
-        <p>Post-quantum encryption for developers. Built for data that has to outlive
-          the quantum era.</p>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="#how">How it works</a></li>
           <li><a href="#features">Features</a></li>
-          <li><a href="/pricing">Pricing</a></li>
           <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
         </ul>
       </div>
       <div>
         <h4>Trust</h4>
         <ul>
-          <li><a href="/security">Security</a></li>
+          <li><a href="/security">Security model</a></li>
           <li><a href="/docs#format">Ciphertext spec</a></li>
-          <li><a href="/security#compliance">Compliance</a></li>
+          <li><a href="/security#compliance">Compliance status</a></li>
         </ul>
       </div>
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="#start">Early access</a></li>
-          <li><a href="mailto:hello@vellumguard.com">Contact</a></li>
+          <li><a href="#start">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
           <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bot">
-      <span>© <span id="year">2026</span> VellumGuard. All rights reserved.</span>
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
       <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
     </div>
   </div>

@@ -116,17 +116,28 @@ em.it { font-style: italic; }
 .brand-name { font-family: var(--serif-display); font-weight: 600; font-size: 1.32rem; letter-spacing: -0.02em; }
 .brand-name span { color: var(--rubric); }
 .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-.nav-links a {
+.nav-links a:not(.btn) {
   text-decoration: none; font-size: 0.96rem; color: var(--ink-soft);
   transition: color .15s ease; position: relative;
 }
-.nav-links a:hover { color: var(--ink); }
-.nav-links a::after {
+.nav-links a:not(.btn):hover { color: var(--ink); }
+.nav-links a:not(.btn)::after {
   content: ""; position: absolute; left: 0; bottom: -4px;
   width: 0; height: 1.5px; background: var(--rubric); transition: width .2s ease;
 }
-.nav-links a:hover::after { width: 100%; }
+.nav-links a:not(.btn):hover::after { width: 100%; }
 .nav-cta { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.nav-links a.btn {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.nav-links a.btn:hover {
+  color: var(--paper);
+  background: var(--rubric);
+  border-color: var(--rubric);
+}
+.nav-links a.btn::after { display: none; }
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.4rem; }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--ink); margin: 5px 0; transition: .2s; }
 
@@ -381,7 +392,7 @@ em.it { font-style: italic; }
   }
   .nav-links.open { transform: translateX(0); }
   .nav-links li { width: 100%; }
-  .nav-links a { font-size: 1.1rem; }
+  .nav-links a:not(.btn) { font-size: 1.1rem; }
   .nav-toggle { display: block; z-index: 46; position: relative; }
   .price-grid { grid-template-columns: 1fr; }
   .foot-grid { grid-template-columns: 1fr; }

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Design Partner Program — VellumGuard</title>
+<meta name="description" content="VellumGuard design partner program. Join a small cohort building with post-quantum encryption infrastructure. Beta / controlled access." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark">V</span>
+      <span class="brand-name">Vellum<span>Guard</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#features">Why VellumGuard</a></li>
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/security">Security</a></li>
+      <li><a href="#apply" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Apply now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow reveal">Design Partner Program</span>
+    <h1 class="reveal" data-d="1">Build post-quantum encryption<br />before you have to.</h1>
+    <p class="lead reveal" data-d="2">We are onboarding a small cohort of design partners.
+      You get early access to the live platform, direct influence on the roadmap, and a
+      team that responds when something breaks.</p>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="band" style="padding-top:1rem;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">What you get</span>
+      <h2>Everything you need to ship — nothing you don't.</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal" data-d="1">
+        <h3>Live hosted KMS</h3>
+        <p>The VellumGuard KMS API is live at <code>https://api.vellumguard.com</code>.
+          Workspace and API key provisioned manually — no waiting for a self-serve portal.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>TypeScript SDK</h3>
+        <p><code>@vellumguard/sdk</code> is published on npm. Install it, point it at your
+          API key, and you have hybrid post-quantum encrypt/decrypt in five lines.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>Proven key rotation lifecycle</h3>
+        <p>The full v1 → v2 DEK rotation — generate, register, promote, rewrap, retire —
+          has been executed in production. You are building on infrastructure that has
+          been exercised, not just designed.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Prioritized support</h3>
+        <p>P0 issues get a same-business-day response. You have a direct line to the
+          founding team, not a ticket queue. Beta is free unless otherwise agreed.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>Monthly feedback call</h3>
+        <p>30 minutes each month. Your use case and blockers feed directly into what we
+          build next. Design partners shape the product in ways later users cannot.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Early access, no lock-in</h3>
+        <p>The ciphertext format is open with reference test vectors. Your encrypted data
+          remains decryptable with any conforming implementation — regardless of what
+          happens to VellumGuard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS LIVE -->
+<section class="band band-tint">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Platform status</span>
+      <h2>What is live today.</h2>
+    </div>
+    <div class="spec reveal">
+      <div class="spec-row"><span class="spec-k">Hosted KMS API</span><span class="spec-v">Live · https://api.vellumguard.com</span></div>
+      <div class="spec-row"><span class="spec-k">TypeScript SDK</span><span class="spec-v">Live · @vellumguard/sdk on npm</span></div>
+      <div class="spec-row"><span class="spec-k">Hybrid crypto</span><span class="spec-v">X25519 + ML-KEM-768 · Ed25519 + ML-DSA-65</span></div>
+      <div class="spec-row"><span class="spec-k">Cloud KMS DEK wrapping</span><span class="spec-v">Live · Google Cloud KMS</span></div>
+      <div class="spec-row"><span class="spec-k">Production key rotation</span><span class="spec-v">v1 → v2 rewrap executed · v1 retired</span></div>
+      <div class="spec-row"><span class="spec-k">Audit &amp; security events</span><span class="spec-v">Every operation recorded and queryable</span></div>
+      <div class="spec-row"><span class="spec-k">Backup restore</span><span class="spec-v">Verified · Cloud SQL automated backups</span></div>
+      <div class="spec-row"><span class="spec-k">Uptime monitoring</span><span class="spec-v">GCP uptime check on /healthz/</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- HONEST CAVEATS -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Be clear-eyed</span>
+      <h2>What is not ready yet.</h2>
+      <p class="lead">Design partners work with us on real limitations, not around them.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal" data-d="1">
+        <h3>TypeScript only</h3>
+        <p>The SDK is TypeScript/Node. Python and Go are on the roadmap. If your stack
+          requires a different language today, we want to hear about it.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>No compliance certifications yet</h3>
+        <p>Not SOC 2 certified. Not HIPAA certified. No BAA available. No formal SLA
+          during beta. Use test or synthetic data unless separately agreed in writing.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>No self-serve portal</h3>
+        <p>No dashboard, no developer portal, no billing UI. Workspaces and keys are
+          provisioned manually. That is exactly why this is the design-partner phase.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICKSTART -->
+<section class="band band-ink">
+  <div class="wrap">
+    <div class="sec-head reveal" style="color:var(--paper);">
+      <span class="eyebrow">Quick start</span>
+      <h2 style="color:var(--paper);">Five lines to post-quantum encryption.</h2>
+    </div>
+    <div class="reveal" data-d="1">
+      <div class="code-card">
+        <div class="code-top">
+          <span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span>
+          <span class="code-file">quickstart.ts</span>
+        </div>
+        <div class="code-body">
+<span class="ln"><span class="tk-kw">import</span> { VellumGuard, HttpKmsClient } <span class="tk-kw">from</span> <span class="tk-str">"@vellumguard/sdk"</span>;</span>
+<span class="ln"> </span>
+<span class="ln"><span class="tk-kw">const</span> kms = <span class="tk-kw">new</span> <span class="tk-fn">HttpKmsClient</span>({</span>
+<span class="ln">  baseUrl: <span class="tk-str">"https://api.vellumguard.com"</span>,</span>
+<span class="ln">  apiKey: process.env.<span class="tk-fn">VELLUMGUARD_API_KEY</span>!,</span>
+<span class="ln">});</span>
+<span class="ln"><span class="tk-kw">const</span> vg = <span class="tk-kw">new</span> <span class="tk-fn">VellumGuard</span>({ kms });</span>
+<span class="ln"> </span>
+<span class="ln"><span class="tk-kw">const</span> ciphertext = <span class="tk-kw">await</span> vg.<span class="tk-fn">encrypt</span>({</span>
+<span class="ln">  data: <span class="tk-str">"patient note: BP 120/80"</span>,</span>
+<span class="ln">  recipient: <span class="tk-str">"user_abc123"</span>,</span>
+<span class="ln">  signAs: <span class="tk-str">"user_abc123"</span>,</span>
+<span class="ln">});</span>
+<span class="ln"><span class="tk-kw">const</span> { data } = <span class="tk-kw">await</span> vg.<span class="tk-fn">decrypt</span>(ciphertext, <span class="tk-str">"user_abc123"</span>);</span>
+        </div>
+      </div>
+    </div>
+    <p class="reveal" data-d="2" style="color:var(--paper);margin-top:1.5rem;text-align:center;font-family:var(--mono);font-size:.9rem;">
+      <a href="/docs" style="color:var(--gild);">Full quickstart →</a> &nbsp;&nbsp;
+      <a href="/security" style="color:var(--gild);">Security model →</a>
+    </p>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="band" id="apply">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <span class="eyebrow">Apply</span>
+      <h2>Tell us what you are building.</h2>
+      <p class="lead">Healthcare, defense, long-lived-data, and AI training-data use
+        cases prioritized. Beta is free unless otherwise agreed in writing. No charges
+        without a written agreement before GA.</p>
+      <form class="cta-actions" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('.cta-msg').hidden=false;">
+        <input type="email" required placeholder="you@company.com"
+          style="font-family:var(--mono);font-size:.9rem;padding:.92em 1.2em;border:1.5px solid var(--ink);background:transparent;color:var(--ink);min-width:260px;" />
+        <button class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);color:var(--paper);">Apply for access <span class="btn-arrow">→</span></button>
+        <span class="cta-msg" hidden style="display:block;width:100%;font-family:var(--mono);font-size:.8rem;color:var(--rubric);margin-top:.6rem;">✦ Thank you — we'll be in touch.</span>
+      </form>
+      <p style="margin-top:1rem;font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);">
+        Or email us directly: <a href="mailto:beta@vellumguard.com" style="color:var(--rubric);">beta@vellumguard.com</a><br />
+        By applying you agree to our <a href="/privacy" style="color:var(--rubric);">Privacy Policy</a> and
+        <a href="/terms" style="color:var(--rubric);">Terms of Service</a> (draft / under legal review).
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand" style="color:var(--paper);">
+          <span class="brand-mark" style="border-color:var(--paper);">V</span>
+          <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
+        </a>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Trust</h4>
+        <ul>
+          <li><a href="/security">Security model</a></li>
+          <li><a href="/docs#format">Ciphertext spec</a></li>
+          <li><a href="/security#compliance">Compliance status</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/beta">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
+          <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
+      <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

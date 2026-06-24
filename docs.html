@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Documentation — VellumGuard</title>
-<meta name="description" content="VellumGuard documentation. Quickstart, SDK reference, and the open ciphertext format specification for post-quantum encryption." />
+<meta name="description" content="VellumGuard documentation. SDK quickstart, identity management, and the open ciphertext format specification for hybrid post-quantum encryption." />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -20,10 +20,9 @@
     <ul class="nav-links">
       <li><a href="/#how">How it works</a></li>
       <li><a href="/#features">Why VellumGuard</a></li>
-      <li><a href="/pricing">Pricing</a></li>
       <li><a href="/docs">Docs</a></li>
       <li><a href="/security">Security</a></li>
-      <li><a href="/#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Get a key</a></li>
+      <li><a href="/#start" class="nav-cta btn btn-solid" style="padding:.6em 1.1em;">Request access</a></li>
     </ul>
   </div>
 </nav>
@@ -41,48 +40,60 @@
   <div class="wrap prose reveal">
 
     <h2 id="install">Installation</h2>
-    <p>The VellumGuard SDK ships for TypeScript/Node first, with Python and Go following.
-      Install from npm:</p>
+    <p>The VellumGuard SDK is available for TypeScript/Node. Python and Go are on the
+      roadmap. Install from npm:</p>
     <pre><code>npm install @vellumguard/sdk</code></pre>
 
     <h2 id="quickstart">Quickstart</h2>
-    <p>Initialize the client with a workspace API key, then encrypt and decrypt against
-      your own user identities. Hybrid post-quantum protection is on by default.</p>
+    <p>Initialize the client with the hosted API endpoint and your workspace API key, then
+      encrypt and decrypt against your own user identities. Hybrid post-quantum protection
+      is on by default.</p>
     <pre><code>import { VellumGuard, HttpKmsClient } from "@vellumguard/sdk";
 
-const vg = new VellumGuard({
-  kms: new HttpKmsClient({ apiKey: process.env.VELLUMGUARD_API_KEY }),
+const kms = new HttpKmsClient({
+  baseUrl: "https://api.vellumguard.com",
+  apiKey: process.env.VELLUMGUARD_API_KEY!,
 });
 
-// Encrypt — addressed to one of your user IDs; signed by your service identity
-const sealed = await vg.encrypt({
+const vg = new VellumGuard({ kms });
+
+// Encrypt — addressed to one of your user IDs; signed by the same identity
+const ciphertext = await vg.encrypt({
   data: "patient note: BP 120/80",
   recipient: "user_abc123",
-  signAs: "service_key",
+  signAs: "user_abc123",
 });
 
 // Decrypt — on the recipient's side
-const { data, sender } = await vg.decrypt(sealed, "user_abc123");</code></pre>
+const { data } = await vg.decrypt(ciphertext, "user_abc123");
+
+console.log(data); // "patient note: BP 120/80"</code></pre>
 
     <p>That is the whole surface for the common case. No key handling, no algorithm
       selection, no mode flags to forget.</p>
 
     <h3 id="files">Encrypting a file</h3>
-    <p>File streaming and multi-recipient are on the roadmap for a future SDK release.
-      Today, read the file into a Buffer and use the standard <code>encrypt</code> call:</p>
+    <p>Read the file into a Buffer and use the standard <code>encrypt</code> call:</p>
     <pre><code>import { readFile } from "node:fs/promises";
 
 const pdf = await readFile("/tmp/labs.pdf");
-const sealed = await vg.encrypt({
+const ciphertext = await vg.encrypt({
   data: pdf,
   recipient: "patient_001",
   signAs: "service_key",
 });</code></pre>
 
     <h3 id="identities">Managing identities</h3>
-    <p>Register an identity by calling <code>vg.identities.create()</code> in the
-      VellumGuard Console, or via the REST API (early access). The SDK resolves
-      identities by their external ID automatically at encrypt and decrypt time.</p>
+    <p>Identities represent participants (users, devices, services). Create them via the
+      REST API:</p>
+    <pre><code>curl -s -X POST https://api.vellumguard.com/v1/identities \
+  -H "Authorization: Bearer $VELLUMGUARD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"id": "user_abc123"}'</code></pre>
+    <p>The SDK resolves identities by their external ID at encrypt and decrypt time. Your
+      API key is supplied during design-partner onboarding. Contact
+      <a href="mailto:beta@vellumguard.com" style="color:var(--rubric);">beta@vellumguard.com</a>
+      to request access.</p>
 
     <h2 id="format">Ciphertext format</h2>
     <p>The VellumGuard ciphertext format is <strong>public and versioned</strong>. A
@@ -111,15 +122,15 @@ const sealed = await vg.encrypt({
     <p>Every error carries a stable <code>code</code>, a <code>retryable</code> flag, and a
       <code>requestId</code> for support. Match on the code — never parse messages.</p>
     <pre><code>try {
-  await vg.decrypt(sealed, "user_abc123");
+  await vg.decrypt(ciphertext, "user_abc123");
 } catch (err) {
   if (err.code === "recipient_revoked") { /* handle */ }
 }</code></pre>
 
     <h2 id="next">Next steps</h2>
     <p>Review the <a href="/security">security model</a> to understand the trust
-      boundary, or <a href="/#start">request an API key</a> to start building.
-      Full SDK reference and language-specific guides ship with early access.</p>
+      boundary. To request a design-partner API key, <a href="/#start">apply here</a>.
+      Extended SDK reference and language-specific guides are available to active partners.</p>
 
   </div>
 </section>
@@ -127,9 +138,9 @@ const sealed = await vg.encrypt({
 <section class="band band-ink">
   <div class="wrap">
     <div class="cta-box reveal">
-      <span class="eyebrow">Begin the folio</span>
+      <span class="eyebrow">Design partner program</span>
       <h2>Build with VellumGuard.</h2>
-      <p class="lead">Request an early-access key and put these examples into production.</p>
+      <p class="lead">Request a design-partner API key and put these examples into production.</p>
       <div class="cta-actions">
         <a href="/#start" class="btn btn-solid" style="background:var(--rubric);border-color:var(--rubric);">Request access <span class="btn-arrow">→</span></a>
         <a href="https://github.com/vellumguard" class="btn btn-ghost" style="border-color:var(--paper);color:var(--paper);">View on GitHub</a>
@@ -146,36 +157,38 @@ const sealed = await vg.encrypt({
           <span class="brand-mark" style="border-color:var(--paper);">V</span>
           <span class="brand-name" style="color:var(--paper);">Vellum<span style="color:var(--rubric);">Guard</span></span>
         </a>
-        <p>Post-quantum encryption for developers.</p>
+        <p>Post-quantum encryption infrastructure for developers.<br />Beta / design-partner access only.</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="/#how">How it works</a></li>
           <li><a href="/#features">Features</a></li>
-          <li><a href="/pricing">Pricing</a></li>
           <li><a href="/docs">Documentation</a></li>
+          <li><a href="/security">Security</a></li>
         </ul>
       </div>
       <div>
         <h4>Trust</h4>
         <ul>
-          <li><a href="/security">Security</a></li>
+          <li><a href="/security">Security model</a></li>
           <li><a href="/docs#format">Ciphertext spec</a></li>
-          <li><a href="/security#compliance">Compliance</a></li>
+          <li><a href="/security#compliance">Compliance status</a></li>
         </ul>
       </div>
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="/#start">Early access</a></li>
-          <li><a href="mailto:hello@vellumguard.com">Contact</a></li>
+          <li><a href="/#start">Design partner access</a></li>
+          <li><a href="mailto:beta@vellumguard.com">beta@vellumguard.com</a></li>
           <li><a href="https://github.com/vellumguard">GitHub</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bot">
-      <span>© <span id="year">2026</span> VellumGuard. All rights reserved.</span>
+      <span>© <span id="year">2026</span> VellumGuard. Beta / design-partner access only. Not SOC 2 or HIPAA certified.</span>
       <span>ML-KEM · ML-DSA · NIST FIPS 203 / 204</span>
     </div>
   </div>
