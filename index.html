@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VellumGuard — Post-quantum encryption infrastructure for developers</title>
-<meta name="description" content="VellumGuard is a hosted KMS for post-quantum encryption. Hybrid classical + post-quantum crypto, Cloud KMS-backed key wrapping, and a proven key rotation lifecycle. Beta / design-partner access." />
-<meta property="og:title" content="VellumGuard — Post-quantum encryption infrastructure" />
-<meta property="og:description" content="Hybrid post-quantum encryption as a hosted service. Cloud KMS-backed DEK wrapping, workspace-scoped API keys, and a proven rotation lifecycle. Built for data that has to outlive the quantum era." />
+<title>VellumGuard — Post-quantum encryption for long-lived sensitive data</title>
+<meta name="description" content="VellumGuard is a hosted encryption and key-management service for applications handling sensitive records. Hybrid post-quantum crypto, key rotation, and an audit trail — without building it yourself. Controlled beta." />
+<meta property="og:title" content="VellumGuard — Encryption for data that stays sensitive for years" />
+<meta property="og:description" content="A hosted key management and encryption service with hybrid post-quantum crypto, Cloud KMS-backed key wrapping, and a full rotation lifecycle. For healthcare, SaaS, AI, and long-lived sensitive data. Controlled beta and design-partner access." />
 <meta property="og:type" content="website" />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="css/style.css?v=2" />
@@ -35,15 +35,16 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <p class="hero-folio reveal">Folio I · Post-quantum encryption infrastructure</p>
+      <p class="hero-folio reveal">Folio I · Controlled beta</p>
       <h1 class="reveal" data-d="1">
-        Post-quantum encryption<br />
-        for the <span class="rubric">quantum era.</span>
+        Encryption for data that stays<br />
+        sensitive for <span class="rubric">years, not months.</span>
       </h1>
       <p class="lead hero-lead reveal" data-d="2">
-        VellumGuard gives developers a hosted key-management and encryption layer
-        for long-lived sensitive data — with hybrid post-quantum cryptography,
-        auditability, and a proven Cloud KMS-backed key rotation lifecycle.
+        Most teams skip application-layer encryption because getting key management
+        right is hard. VellumGuard handles that — hybrid post-quantum crypto, key
+        rotation, and an audit trail, as a hosted service. TypeScript SDK on npm.
+        API live. Controlled beta.
       </p>
       <div class="hero-actions reveal" data-d="3">
         <a href="#start" class="btn btn-solid">Request Design Partner Access <span class="btn-arrow">→</span></a>
@@ -107,43 +108,93 @@
     <div class="sec-head reveal">
       <span class="eyebrow">The problem worth solving</span>
       <h2>A quantum computer doesn't have to exist yet to be a threat.</h2>
-      <p class="lead">Encrypted data captured today can be stored and broken later. For
-        records that stay sensitive for decades, the clock is already running.</p>
+      <p class="lead">Encrypted data captured today can be stored and decrypted later —
+        once quantum hardware arrives. If your records need to stay confidential for
+        10 years or more, you are already behind.</p>
     </div>
     <div class="problem-grid">
       <div class="problem-card reveal" data-d="1">
         <div class="problem-num">01</div>
         <h3>The standards landed</h3>
-        <p>NIST finalized post-quantum cryptography standards in 2024. Security
-          questionnaires now ask for a post-quantum roadmap — and "we're looking into it"
-          is no longer an answer.</p>
+        <p>NIST published the post-quantum cryptography standards in 2024. Security
+          questionnaires now ask for a migration plan. "We're looking into it" is no
+          longer a complete answer.</p>
       </div>
       <div class="problem-card reveal" data-d="2">
         <div class="problem-num">02</div>
         <h3>The tools are brutal</h3>
-        <p>Cloud KMS products are infrastructure-grade and PQ-incomplete. Rolling your own
-          with low-level libraries means becoming a cryptographer — and owning key
-          distribution, rotation, and audit.</p>
+        <p>Cloud KMS products don't support post-quantum yet. Rolling your own means
+          choosing algorithms, building key distribution, managing rotation, and logging
+          everything — before writing a line of your actual application.</p>
       </div>
       <div class="problem-card reveal" data-d="3">
         <div class="problem-num">03</div>
         <h3>The data is long-lived</h3>
-        <p>Healthcare records, government and defense data, intellectual property, AI
-          training data — anything with a multi-decade sensitivity horizon is exactly what
-          a future quantum adversary would target.</p>
+        <p>Healthcare records, research data, AI training sets, government files —
+          anything with a 10-plus-year sensitivity window is exactly what a future quantum
+          adversary would target first. The encryption you apply today is what you will be
+          relying on then.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== USE CASES ===================== -->
+<section class="band band-tint" id="use-cases">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Who uses VellumGuard</span>
+      <h2>Built for records that can't expire.</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal" data-d="1">
+        <h3>Healthcare and research records</h3>
+        <p>Encrypt patient notes, clinical records, or research data at the application
+          layer. When quantum-resistant encryption becomes a regulatory requirement,
+          you will have already shipped it.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>SaaS products with tenant data</h3>
+        <p>Add encryption to your product without building crypto infrastructure from
+          scratch. Workspace-scoped API keys give each customer isolated key material
+          and a separate audit log.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>AI training and evaluation data</h3>
+        <p>Training sets that include personal information, proprietary examples, or
+          sensitive content need protection that holds up over the model's lifetime —
+          not just during the training run.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Pre-compliance readiness</h3>
+        <p>Start your post-quantum migration before the procurement questionnaire
+          arrives. VellumGuard gives your security team something concrete to show
+          while the standards are still being adopted.</p>
+      </div>
+      <div class="feat reveal" data-d="1">
+        <h3>Government and defense-adjacent systems</h3>
+        <p>CNSA 2.0 requires post-quantum migration for national security systems
+          by 2035. If your customers include federal agencies, you are already in scope.
+          We support that planning work now.</p>
+      </div>
+      <div class="feat reveal" data-d="2">
+        <h3>Any application-level encryption need</h3>
+        <p>If you have been meaning to encrypt a specific data class — messages,
+          documents, model weights, financial records — and kept deferring because
+          key management is hard, this is the direct path.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===================== TRACTION ===================== -->
-<section class="band band-tint" id="status">
+<section class="band" id="status">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Platform status</span>
-      <h2>Live platform. Proven rotation lifecycle.</h2>
-      <p class="lead">The infrastructure is running. The key rotation lifecycle has been
-        executed end-to-end in production.</p>
+      <h2>What's actually running today.</h2>
+      <p class="lead">The API is live. The TypeScript SDK is on npm. The full key rotation
+        lifecycle has been executed in production — not just documented.</p>
     </div>
     <div class="spec reveal">
       <div class="spec-row"><span class="spec-k">Hosted KMS API</span><span class="spec-v">Live · https://api.vellumguard.com</span></div>
@@ -164,13 +215,13 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">How it works</span>
-      <h2>From plaintext to post-quantum in three moves.</h2>
+      <h2>From plaintext to post-quantum in three steps.</h2>
     </div>
     <div class="steps">
       <div class="step reveal" data-d="1">
         <div class="step-k">Step i</div>
         <h3>Install the SDK, call encrypt</h3>
-        <p>One npm package. Address encrypted data to your own user IDs — not raw keys.
+        <p>One npm install. Address encrypted data to your user IDs — not raw keys.
           The SDK calls the hosted KMS to resolve each identity's public key and returns
           a sealed ciphertext. No key bytes, no algorithm choices.</p>
       </div>
@@ -314,16 +365,19 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Beta readiness</span>
-      <h2>What you are getting into — honestly.</h2>
+      <h2>What you're getting into — honestly.</h2>
       <p class="lead">VellumGuard is available for controlled beta and design-partner
-        access. The platform is live. The limitations below are real.</p>
+        access. The platform is live and the key rotation lifecycle works end-to-end.
+        The limitations below are real.</p>
     </div>
     <div class="feat-grid">
       <div class="feat reveal" data-d="1">
         <h3>What is ready</h3>
-        <p>Hosted KMS API, TypeScript SDK, Cloud KMS DEK wrapping, full key rotation
-          lifecycle, workspace-scoped API keys, identity-scoped authorization, audit and
-          security events, backup restore verified, uptime monitoring configured.</p>
+        <p>The API is live at api.vellumguard.com. The TypeScript SDK is on npm. DEK
+          wrapping is backed by Google Cloud KMS. The full key rotation lifecycle —
+          generate, promote, rewrap, retire — has been executed end-to-end in production.
+          Workspace-scoped API keys, identity-scoped authorization, and audit events are
+          all working.</p>
       </div>
       <div class="feat reveal" data-d="2">
         <h3>What is not ready yet</h3>
@@ -347,10 +401,11 @@
   <div class="wrap">
     <div class="cta-box reveal">
       <span class="eyebrow">Design partner program</span>
-      <h2>Build with post-quantum encryption — before your competitors have to.</h2>
+      <h2>Build with post-quantum encryption before you're asked to.</h2>
       <p class="lead">We are onboarding a small group of design partners. Healthcare,
-        defense, and long-lived-data use cases prioritized. Beta is free unless
-        otherwise agreed in writing.</p>
+        defense, long-lived-data, and AI training-data use cases prioritized. Beta is
+        free unless otherwise agreed in writing. No charges without a written agreement
+        before general availability.</p>
       <form class="cta-form" novalidate>
         <input type="hidden" name="source" value="vellumguard-website" />
         <input type="hidden" name="form"   value="design-partner-access" />
