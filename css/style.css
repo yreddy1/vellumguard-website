@@ -96,6 +96,12 @@ em.it { font-style: italic; }
 .btn:hover .btn-arrow { transform: translateX(3px); }
 
 /* ---------- access-request form ---------- */
+/* Status messages: hidden by default; :not([hidden]) makes them block when
+   the hidden attribute is removed, without relying on inline display:block
+   which would override the UA [hidden]{display:none} rule. */
+.form-status          { display: none; font-family: var(--mono); font-size: .8rem; margin-top: .7rem; }
+.form-status:not([hidden]) { display: block; }
+
 .form-fields { display: flex; flex-direction: column; gap: .65rem; width: 100%; text-align: left; margin-top: .2rem; }
 .form-label {
   display: block; font-family: var(--mono); font-size: .74rem;

@@ -37,15 +37,29 @@
   }
 
   // --- request access forms (Formspree) ---
+  // status: "idle" | "invalid" | "submitting" | "success" | "error"
   document.querySelectorAll('.cta-form').forEach(function (form) {
+    var errEl  = form.querySelector('.cta-err');
+    var msgEl  = form.querySelector('.cta-msg');
+    var failEl = form.querySelector('.cta-fail');
+
+    function setStatus(status) {
+      if (errEl)  { errEl.hidden  = status !== 'invalid'; }
+      if (msgEl)  { msgEl.hidden  = status !== 'success'; }
+      if (failEl) { failEl.hidden = status !== 'error';   }
+    }
+
+    // Start idle — all messages hidden
+    setStatus('idle');
+
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
       var emailInput = form.querySelector('input[type="email"]');
-      var errEl      = form.querySelector('.cta-err');
-      var msgEl      = form.querySelector('.cta-msg');
-      var failEl     = form.querySelector('.cta-fail');
       var submitBtn  = form.querySelector('button[type="submit"]');
+
+      // Reset before each attempt
+      setStatus('idle');
 
       // Validate: non-empty, has @, has a dot after @
       var email = emailInput ? emailInput.value.trim() : '';
@@ -53,13 +67,10 @@
       var valid = atIdx > 0 && email.indexOf('.', atIdx + 1) > atIdx + 1;
 
       if (!valid) {
-        if (errEl)  { errEl.hidden  = false; }
-        if (msgEl)  { msgEl.hidden  = true;  }
-        if (failEl) { failEl.hidden = true;  }
+        setStatus('invalid');
         if (emailInput) { emailInput.focus(); }
         return;
       }
-      if (errEl) { errEl.hidden = true; }
 
       // Disable button while submitting
       var origHTML = submitBtn ? submitBtn.innerHTML : '';
@@ -72,17 +83,14 @@
       })
       .then(function (res) {
         if (res.ok) {
-          if (msgEl)  { msgEl.hidden  = false; }
-          if (failEl) { failEl.hidden = true;  }
+          setStatus('success');
           form.reset();
         } else {
-          if (failEl) { failEl.hidden = false; }
-          if (msgEl)  { msgEl.hidden  = true;  }
+          setStatus('error');
         }
       })
       .catch(function () {
-        if (failEl) { failEl.hidden = false; }
-        if (msgEl)  { msgEl.hidden  = true;  }
+        setStatus('error');
       })
       .finally(function () {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = origHTML; }
